@@ -1,0 +1,15 @@
+[Unit]
+Description=Sleep CPAP system
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/sleep-cpap-server
+EnvironmentFile=/opt/sleep-cpap-server/.env
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+User=sleepcpap
+NoNewPrivileges=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

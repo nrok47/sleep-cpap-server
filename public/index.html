@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>บริการตรวจการนอนหลับและติดตาม CPAP</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&family=Noto+Serif+Thai:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f7f9;--card:#fff;--tx:#17252e;--mu:#5b6b75;--ac:#0f6b7a;--ac2:#e3f2f4;--bd:#d9e2e7;--wa:#b45309;--ok:#15803d;--er:#b91c1c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f171c;--card:#18242b;--tx:#e6eef2;--mu:#9bb0bb;--ac:#4cc3d4;--ac2:#16353b;--bd:#2a3b44;--wa:#f5b44d;--ok:#4ade80;--er:#f87171}}
+:root[data-theme="dark"]{--bg:#0f171c;--card:#18242b;--tx:#e6eef2;--mu:#9bb0bb;--ac:#4cc3d4;--ac2:#16353b;--bd:#2a3b44;--wa:#f5b44d;--ok:#4ade80;--er:#f87171}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 'Noto Sans Thai',system-ui,sans-serif}
+header{background:var(--ac);color:#fff;padding:14px 16px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header{color:#06242a}}
+header h1{margin:0;font-size:18px}header p{margin:0;font-size:13px;opacity:.9}
+main{max-width:980px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button,.btn{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 16px;border-radius:10px;font:inherit;cursor:pointer}
+.tabs button.on,.btn.pri{background:var(--ac);color:#fff;border-color:var(--ac)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tabs button.on,:root:not([data-theme="light"]) .btn.pri{color:#06242a}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+h2{font-size:17px;margin:0 0 10px}h3{font-size:15px;margin:14px 0 6px}
+label{display:block;font-size:14px;color:var(--mu);margin:10px 0 4px}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);font:inherit}
+.q{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--bd);font-size:14px}
+.q select{width:auto;min-width:150px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat{background:var(--ac2);border-radius:12px;padding:10px 12px}.stat b{font-size:24px;display:block;color:var(--ac)}.stat span{font-size:12px;color:var(--mu)}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;background:var(--ac2);color:var(--ac);font-size:13px;font-weight:600}
+.over{color:var(--er);font-weight:600}.mu{color:var(--mu);font-size:13px}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertical-align:top}th{color:var(--mu);font-weight:600}
+.case{border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.note{background:var(--ac2);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--mu)}
+.hide{display:none}dialog{border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);max-width:780px;width:94%;max-height:92vh;overflow:auto}.dt{display:flex;gap:6px}.dt select{flex:1;min-width:0;padding:9px 6px}.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 12px}
+.sc{border-radius:18px;overflow:hidden;background:#f7f0e3;color:#1c2a4d;margin-bottom:14px;font-family:'Noto Sans Thai',sans-serif}
+.sc h1,.sc h2,.sc h3,.sc h4{font-family:'Noto Serif Thai','Noto Sans Thai',serif;color:#1c2a4d}
+.sc .hero{background:linear-gradient(135deg,#5b4b9e,#8a7bd0);color:#fff;padding:22px 20px}
+.sc .hero h1{margin:0 0 8px;font-size:26px;color:#fff}.sc .hero h1 span{color:#ffd77a}.sc .hero p{margin:0;font-size:14px;opacity:.95}
+.sc .sb{padding:22px 18px}.sc .eb{font-size:13px;letter-spacing:.04em;color:#5b6070}
+.sc h2{font-size:22px;margin:2px 0 6px}.sc .sub{font-size:14px;color:#5b6070;margin:0 0 14px}
+.sc label{color:#4a5068}.sc input,.sc select{background:#fffdf8;color:#1c2a4d;border-color:#d8cfbd}
+.seg{display:inline-flex;gap:6px;background:#ece3d0;border-radius:14px;padding:6px;margin-bottom:14px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:10px;padding:10px 14px;font:600 14px 'Noto Sans Thai',sans-serif;color:#5b5648;cursor:pointer}
+.seg button.on{background:#1c2a4d;color:#fff}
+.bar{height:5px;background:#e8dfcb;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#5b4b9e;transition:width .2s}
+.cnt{font:12px monospace;color:#5b5648;margin:6px 0 14px}
+.qc{background:#fffdf8;border:1px solid #e3dac6;border-radius:16px;padding:16px;margin-bottom:12px}
+.tg{display:inline-block;background:#fdebc8;color:#8a5a10;font:600 11px monospace;padding:2px 9px;border-radius:6px}
+.qc h4{font-size:17px;margin:8px 0 4px}.qc p{font-size:13px;color:#5b6070;margin:0 0 12px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px}.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:6px;text-align:left;background:#f5eee1;border:1px solid #ddd2bd;border-radius:10px;padding:13px;font:15px 'Noto Sans Thai',sans-serif;color:#1c2a4d;cursor:pointer}
+.opts:not(.two) .opt{flex-direction:column;align-items:flex-start}
+.opt em{font:12px monospace;color:#7a7364;font-style:normal}.opt.sel{background:#1c2a4d;color:#fff;border-color:#1c2a4d}.opt.sel em{color:#cdd3ea}
+.sum{background:#1c2a4d;color:#fff;border-radius:18px;padding:20px;margin-top:18px}.sum h3{color:#fff;margin:4px 0 14px;font-size:18px}
+.sum .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sum .two>div{background:#2a3860;border-radius:12px;padding:12px 14px;font-size:14px;color:#aab3d3}
+.sum small{font:11px monospace;display:block;margin-bottom:4px}.sum b{color:#fff;font-size:22px}
+.sum hr{border:0;border-top:1px solid #3b4a78;margin:14px 0}#s3{font-size:14px}
+.disc{background:#efe4cb;border-radius:12px;padding:12px 14px;font-size:12px;color:#5b5648;margin-top:16px}
+@media(max-width:480px){.sum .two{grid-template-columns:1fr}}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;min-width:1000px}.cdy{border:1px solid var(--bd);border-radius:8px;min-height:96px;padding:4px;font-size:12px}.cdy.today{border:2px solid var(--ac)}.slot{margin-top:3px;padding:3px 6px;border-radius:5px;line-height:1.35;word-break:break-word}.slot.b{background:var(--ac2);cursor:pointer}.slot.f{color:var(--mu)}.slot.x{background:rgba(185,28,28,.15);color:var(--er);cursor:pointer}
+</style>
+</head>
+<body>
+<header><h1>บริการตรวจการนอนหลับและติดตาม CPAP</h1><p>โรงพยาบาลศูนย์อนามัยที่ 10 อุบลราชธานี</p><div id="who" class="hide" style="margin-top:6px;font-size:13px"></div></header>
+<main>
+<div id="msg" class="note">กำลังเชื่อมต่อระบบ…</div>
+<div class="tabs" id="tabs" style="margin-top:12px"></div>
+<div id="app"></div>
+<p id="stafflink" style="text-align:center;margin:22px 0"><a href="#" id="lgn" class="mu">เจ้าหน้าที่เข้าสู่ระบบ</a></p>
+</main>
+<dialog id="dlg"></dialog>
+<dialog id="lg" style="max-width:360px"><h2>เจ้าหน้าที่เข้าสู่ระบบ</h2><label>ชื่อผู้ใช้</label><input id="lu" autocomplete="username"><label>รหัสผ่าน</label><input id="lp" type="password" autocomplete="current-password"><div id="le" class="over" style="margin-top:6px"></div><div class="row" style="margin-top:12px"><button class="btn pri" id="lgo">เข้าสู่ระบบ</button><button class="btn" id="lcl">ยกเลิก</button></div></dialog>
+<script>
+const STAGES=[
+{k:"callback",n:"รอโทรกลับ",task:"โทรกลับและนัดประเมิน",own:"เจ้าหน้าที่รับนัด",d:2},
+{k:"assess",n:"นัดประเมินและพบแพทย์",task:"ประเมินสุขภาพและพบแพทย์",own:"พยาบาล / แพทย์",d:7},
+{k:"sleep",n:"รอตรวจการนอนหลับ",task:"ตรวจการนอนหลับ (PSG/HSAT)",own:"ห้องตรวจการนอนหลับ",d:14},
+{k:"result",n:"รอรับรองผล / แจ้งผล",task:"รับรองผลและแจ้งผู้ป่วย",own:"แพทย์ / พยาบาลคลินิก",d:3},
+{k:"device",n:"รอเครื่อง CPAP",task:"รับเครื่องและสอนใช้",own:"พยาบาล / ผู้สอนใช้เครื่อง",d:14},
+{k:"follow",n:"ติดตามการใช้ CPAP",task:"โทรติดตามและทบทวนข้อมูลเครื่อง",own:"พยาบาล / แพทย์",d:14},
+{k:"closed",n:"ปิดเคส",task:"-",own:"-",d:0}];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sg=k=>STAGES.find(s=>s.k===k)||STAGES[0];
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const fd=s=>{if(!s||s==="-")return"-";const[y,m,d]=s.split("-");return d+"/"+m+"/"+(+y+543)};
+let db,col,uid="",isStaff=false,view="patient",cases=[],ready=false,pub=true,flash="";
+
+let lastSig="",isAdmin=false;
+const API=async(m,u,b)=>{const r=await fetch(u,{method:m,headers:{"Content-Type":"application/json","X-Requested-With":"fetch"},body:b?JSON.stringify(b):undefined,credentials:"same-origin"});let j=null;try{j=await r.json()}catch(e){}if(!r.ok)throw Object.assign(new Error((j&&j.error)||"error"),{status:r.status});return j};
+async function poll(first){
+  try{const x=await API("GET","/api/cases"),sig=JSON.stringify(x);
+    if(first||sig!==lastSig){lastSig=sig;cases=x;ready=true;if(view!=="admin")render()}}
+  catch(e){if(e.status===401)location.reload()}
+}
+col={doc:id=>({set:d=>API("PUT","/api/cases/"+id,d).then(()=>poll()),update:d=>API("PATCH","/api/cases/"+id,d).then(()=>poll()),delete:()=>API("DELETE","/api/cases/"+id).then(()=>poll())})};
+async function init(){
+  try{const cfg=await API("GET","/api/config");CLINIC_PHONE=cfg.clinicPhone||""}catch(e){}
+  $("#lgn").onclick=e=>{e.preventDefault();$("#lg").showModal();$("#lu").focus()};
+  $("#lcl").onclick=()=>$("#lg").close();
+  const go=async()=>{try{await API("POST","/api/login",{username:$("#lu").value,password:$("#lp").value});location.reload()}catch(e){$("#le").textContent=e.message}};
+  $("#lgo").onclick=go;$("#lp").onkeydown=e=>{if(e.key==="Enter")go()};
+  try{
+    const me=await API("GET","/api/me");
+    if(!me.staff){render();return}
+    uid="staff:"+me.username;isStaff=true;isAdmin=me.role==="admin";pub=false;view="staff";
+    $("#stafflink").className="hide";$("#who").className="";
+    $("#who").innerHTML=esc(me.name)+" ("+(isAdmin?"ผู้ดูแลระบบ":"เจ้าหน้าที่")+") · <a href='#' id='lo' style='color:inherit'>ออกจากระบบ</a>";
+    $("#lo").onclick=async e=>{e.preventDefault();try{await API("POST","/api/logout")}catch(x){}location.reload()};
+    await poll(true);setInterval(poll,5000);
+  }catch(e){render()}
+}
+async function loadAdmin(){
+  try{
+    const[us,au]=await Promise.all([API("GET","/api/users"),API("GET","/api/audit")]);
+    const dt=s=>new Date(s).toLocaleString("th-TH");
+    $("#adm").innerHTML=`<h2>ผู้ใช้งานระบบ</h2><div class="scroll"><table><tr><th>ชื่อผู้ใช้</th><th>ชื่อที่แสดง</th><th>สิทธิ์</th><th>สถานะ</th><th></th></tr>
+${us.map(u=>`<tr><td>${esc(u.username)}</td><td>${esc(u.display)}</td><td>${u.role==="admin"?"ผู้ดูแลระบบ":"เจ้าหน้าที่"}</td><td>${u.active?"ใช้งาน":"<span class='over'>ปิดใช้งาน</span>"}</td>
+<td class="row"><button class="btn" data-pw="${u.id}">รีเซ็ตรหัสผ่าน</button><button class="btn" data-ac="${u.id}" data-v="${u.active?0:1}">${u.active?"ปิดใช้งาน":"เปิดใช้งาน"}</button><button class="btn" data-ro="${u.id}" data-v="${u.role==="admin"?"staff":"admin"}">${u.role==="admin"?"เปลี่ยนเป็นเจ้าหน้าที่":"เปลี่ยนเป็นผู้ดูแล"}</button></td></tr>`).join("")}</table></div>
+<h3>เพิ่มผู้ใช้</h3><div class="g2"><div><label>ชื่อผู้ใช้ (อังกฤษ/ตัวเลข)</label><input id="nu"></div><div><label>ชื่อที่แสดง</label><input id="nd"></div><div><label>รหัสผ่าน (อย่างน้อย 8 ตัว)</label><input id="np" type="password" autocomplete="new-password"></div><div><label>สิทธิ์</label><select id="nr"><option value="staff">เจ้าหน้าที่</option><option value="admin">ผู้ดูแลระบบ</option></select></div></div>
+<p><button class="btn pri" id="nadd">เพิ่มผู้ใช้</button> <span id="nm" class="over"></span></p>
+<h2 style="margin-top:22px">บันทึกการใช้งาน (ล่าสุด 300 รายการ)</h2><div class="scroll"><table><tr><th>เวลา</th><th>ผู้ใช้</th><th>การกระทำ</th><th>รายการ</th><th>IP</th></tr>
+${au.map(a=>`<tr><td>${esc(dt(a.ts))}</td><td>${esc(a.user)}</td><td>${esc(a.action)}</td><td>${esc(a.target)}</td><td>${esc(a.ip)}</td></tr>`).join("")}</table></div>`;
+    const patch=async(id,b)=>{try{await API("PATCH","/api/users/"+id,b);loadAdmin()}catch(e){alert(e.message)}};
+    document.querySelectorAll("[data-pw]").forEach(b=>b.onclick=()=>{const p=prompt("รหัสผ่านใหม่ (อย่างน้อย 8 ตัวอักษร)");if(p)patch(b.dataset.pw,{password:p})});
+    document.querySelectorAll("[data-ac]").forEach(b=>b.onclick=()=>patch(b.dataset.ac,{active:+b.dataset.v}));
+    document.querySelectorAll("[data-ro]").forEach(b=>b.onclick=()=>patch(b.dataset.ro,{role:b.dataset.v}));
+    $("#nadd").onclick=async()=>{try{await API("POST","/api/users",{username:$("#nu").value,display:$("#nd").value,password:$("#np").value,role:$("#nr").value});loadAdmin()}catch(e){$("#nm").textContent=e.message}};
+  }catch(e){$("#adm").textContent="โหลดไม่สำเร็จ"}
+}
+function tabs(){
+  let h=`<button class="${view==="patient"?"on":""}" data-v="patient">${isStaff?"กรอกแทนผู้รับบริการ":"ผู้รับบริการ"}</button>`;
+  if(isStaff)h+=`<button class="${view==="staff"?"on":""}" data-v="staff">เจ้าหน้าที่ดูแลระบบ</button>`;
+  if(isAdmin)h+=`<button class="${view==="admin"?"on":""}" data-v="admin">ผู้ใช้งานและบันทึกการใช้งาน</button>`;
+  $("#tabs").innerHTML=isStaff?h:"";
+  $("#tabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{view=b.dataset.v;flash="";render()});
+}
+function render(){
+  $("#msg").className="hide";tabs();
+  if(view==="admin"&&isAdmin){$("#app").innerHTML='<div id="adm" class="card">กำลังโหลด…</div>';loadAdmin();return}
+  $("#app").innerHTML=view==="staff"&&isStaff?staffHtml():patientHtml();
+  view==="staff"&&isStaff?bindStaff():bindPatient();
+}
+/* ---------- ผู้รับบริการ ---------- */
+const SBQ=[
+["S","Snoring","คุณนอนกรนเสียงดังหรือไม่","ดังกว่าการพูดคุยปกติ หรือดังพอที่จะได้ยินแม้ประตูปิดอยู่","ไม่ใช่","ใช่"],
+["T","Tiredness","คุณรู้สึกเหนื่อยล้า อ่อนเพลีย หรือง่วงในเวลากลางวันบ่อยครั้งหรือไม่","เช่น ง่วงระหว่างทำงาน ขับรถ หรือทำกิจกรรมประจำวัน","ไม่ใช่","ใช่"],
+["O","Observed apnea","เคยมีใครสังเกตเห็นว่าคุณหยุดหายใจขณะหลับหรือไม่","รวมถึงอาการสำลัก หายใจสะดุด หรือหยุดหายใจเป็นช่วงๆ ที่คนใกล้ชิดสังเกตเห็น","ไม่ใช่","ใช่"],
+["P","Pressure","คุณเป็นโรคความดันโลหิตสูง หรือกำลังรักษาอยู่หรือไม่","รวมถึงการรับประทานยาควบคุมความดันโลหิตในปัจจุบัน","ไม่ใช่","ใช่"],
+["B","BMI","ดัชนีมวลกาย (BMI) ของคุณมากกว่า 35 กก./ตร.ม. หรือไม่","BMI = น้ำหนัก (กก.) ÷ ส่วนสูง² (เมตร)","≤ 35","> 35"],
+["A","Age","คุณมีอายุมากกว่า 50 ปีหรือไม่","","≤ 50 ปี","> 50 ปี"],
+["N","Neck","เส้นรอบคอของคุณมากกว่า 40 ซม. หรือไม่","วัดรอบคอในระดับลูกกระเดือก","≤ 40 ซม.","> 40 ซม."],
+["G","Gender","เพศของคุณคือ","","หญิง","ชาย"]];
+const ESSQ=["ขณะนั่งอ่านหนังสือ","ขณะดูโทรทัศน์","ขณะนั่งเฉยๆ ในที่สาธารณะ เช่น โรงภาพยนตร์ หรือที่ประชุม","ขณะโดยสารรถเป็นผู้โดยสารต่อเนื่องนานกว่า 1 ชั่วโมงโดยไม่หยุดพัก","ขณะนอนพักผ่อนในช่วงบ่าย เมื่อมีโอกาสได้ทำ","ขณะนั่งพูดคุยกับผู้อื่น","ขณะนั่งเงียบๆ หลังอาหารกลางวันโดยไม่ได้ดื่มแอลกอฮอล์","ขณะขับรถแล้วต้องหยุดรถติดสัญญาณไฟแดงนานสองสามนาที"];
+const ESSO=["ไม่มีโอกาสง่วงเลย","มีโอกาสง่วงเล็กน้อย","มีโอกาสง่วงปานกลาง","มีโอกาสง่วงสูง"];
+let tab="sb",SBA=Array(8).fill(null),ESA=Array(8).fill(null),P={n:"",p:"",t:"08:00–12:00",c:false,ch:"โทรศัพท์"};
+const sum=a=>a.reduce((x,v)=>x+(v||0),0),done=a=>a.filter(v=>v!==null).length;
+function patientHtml(){
+  const mine=cases.filter(c=>c.uid===uid).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+  return `<div class="card mine"><h2>ติดตามคำขอของฉัน</h2>${mine.length?mine.map(c=>{const s=sg(c.stage);return `<div class="case"><div class="row"><span class="badge">${esc(s.n)}</span><span class="mu">ส่งคำขอ ${fd(c.createdAt)}</span></div>
+<p style="margin:8px 0 0">ขั้นตอนถัดไป: <b>${esc(c.nextTask)}</b><br><span class="mu">ผู้รับผิดชอบ: ${esc(c.owner)} · กำหนด ${fd(c.due)}</span></p></div>`}).join(""):`<p class="mu">ยังไม่มีคำขอ ทำแบบประเมินด้านล่างแล้วส่งคำขอให้โทรกลับได้</p>`}</div>
+<div class="sc"><div class="hero"><h1>Smart Sleep Check <span>เช็กการนอนหลับดี</span></h1><p>ประเมินความเสี่ยงภาวะหยุดหายใจขณะหลับและอาการง่วงผิดปกติในเวลากลางวัน ด้วยแบบสอบมาตรฐานสากลสองชุด ตอบครบ รู้ผลทันที พร้อมคำอธิบายที่เข้าใจง่าย</p></div>
+<div class="sb"><div class="eb">เลือกแบบประเมิน</div><h2>คุณอยากเริ่มเช็กเรื่องไหนก่อน</h2>
+<p class="sub">ทั้งสองแบบใช้เวลาไม่ถึง 2 นาที เลือกทำอย่างใดอย่างหนึ่ง หรือทำทั้งคู่เพื่อภาพรวมที่ครบถ้วนของสุขภาพการนอน</p>
+<div class="seg"><button data-tab="sb">STOP-BANG · เสี่ยงหยุดหายใจ</button><button data-tab="ess">Epworth (ESS) · ความง่วงกลางวัน</button></div>
+<div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div><div id="qs"></div>
+<div class="sum"><div class="eb" style="color:#e9b44c">Overall summary</div><h3>สรุปภาพรวมคะแนนทั้ง 2 แบบประเมิน</h3>
+<div class="two"><div><small>STOP-BANG</small><div id="s1"></div></div><div><small>EPWORTH (ESS)</small><div id="s2"></div></div></div><hr><div id="s3"></div></div>
+<div id="cbox"><h3 style="margin-top:22px">${isStaff?"ข้อมูลผู้รับบริการ (เจ้าหน้าที่กรอกแทน)":"ข้อมูลติดต่อเพื่อให้เจ้าหน้าที่โทรกลับ"}</h3>
+<label>ชื่อ–นามสกุล</label><input id="pn" autocomplete="name" value="${esc(P.n)}">
+<label>เบอร์โทรศัพท์</label><input id="pp" inputmode="tel" autocomplete="tel" value="${esc(P.p)}">
+${isStaff?`<label>ช่องทางที่ผู้รับบริการติดต่อ</label><select id="pch">${["โทรศัพท์","มาที่โรงพยาบาล","ผ่านญาติ/ผู้ดูแล","อื่น ๆ"].map(x=>`<option${x===P.ch?" selected":""}>${x}</option>`).join("")}</select>`:""}<label>ช่วงเวลาที่สะดวกให้โทรกลับ</label><select id="pt">${["08:00–12:00","13:00–16:00","ไม่ระบุ"].map(x=>`<option${x===P.t?" selected":""}>${x}</option>`).join("")}</select>
+<label style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="pc" style="width:auto;margin-top:5px"${P.c?" checked":""}> <span>${isStaff?"ผู้รับบริการให้ความยินยอมให้โรงพยาบาลใช้ข้อมูลนี้เพื่อคัดกรองและติดต่อกลับแล้ว":"ข้าพเจ้ายินยอมให้โรงพยาบาลใช้ข้อมูลนี้เพื่อคัดกรองและติดต่อกลับเท่านั้น"}</span></label>
+<p><button class="btn pri" id="send">${isStaff?"บันทึกเคสใหม่":"ส่งคำขอให้โทรกลับ"}</button></p><div id="pe" class="over"></div></div>
+<div class="disc"><b>ข้อควรทราบ</b> — Smart Sleep Check เป็นเครื่องมือคัดกรองเบื้องต้นเพื่อประเมินความเสี่ยง ไม่ใช่การวินิจฉัยโรค ผลลัพธ์ไม่สามารถทดแทนการตรวจวินิจฉัยทางการแพทย์ เช่น การตรวจการนอนหลับ (Sleep Study / Polysomnography) หากคุณมีคะแนนความเสี่ยงปานกลางถึงสูง ควรปรึกษาแพทย์ผู้เชี่ยวชาญด้านการนอนหลับเพื่อประเมินเพิ่มเติม</div></div></div>`;
+}
+function qsHtml(){
+  if(tab==="sb")return SBQ.map((q,i)=>`<div class="qc"><span class="tg">${q[0]} · ${q[1]}</span><h4>${i+1}. ${q[2]}</h4>${q[3]?`<p>${q[3]}</p>`:""}<div class="opts two">${[4,5].map((k,v)=>`<button class="opt${SBA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${q[k]}<em>+${v}</em></button>`).join("")}</div></div>`).join("");
+  return ESSQ.map((t,i)=>`<div class="qc"><span class="tg">สถานการณ์ที่ ${i+1}</span><h4>${t}</h4><p>โอกาสที่คุณจะเผลองีบหลับ หรือรู้สึกง่วงมากในสถานการณ์นี้ (ไม่ใช่แค่เหนื่อย)</p><div class="opts">${ESSO.map((o,v)=>`<button class="opt${ESA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${o}<em>+${v} คะแนน</em></button>`).join("")}</div></div>`).join("");
+}
+function refresh(){
+  const A=tab==="sb"?SBA:ESA,k=done(A);
+  $("#bar").style.width=k/8*100+"%";
+  $("#cnt").textContent=`ตอบแล้ว ${k} จาก 8 ${tab==="sb"?"ข้อ":"สถานการณ์"}`;
+  document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+  const ds=done(SBA)===8,de=done(ESA)===8,sb=sum(SBA),es=sum(ESA);
+  $("#s1").innerHTML=ds?`<b>${sb}</b>/8 · ความเสี่ยง${sb>=5?"สูง":sb>=3?"ปานกลาง":"ต่ำ"}`:`<span>${done(SBA)?`ตอบแล้ว ${done(SBA)}/8 ข้อ`:"ยังไม่ได้ทำแบบประเมินนี้"}</span>`;
+  $("#s2").innerHTML=de?`<b>${es}</b>/24 · ${es>=11?"ง่วงมากผิดปกติ":"อยู่ในเกณฑ์ปกติ"}`:`<span>${done(ESA)?`ตอบแล้ว ${done(ESA)}/8 สถานการณ์`:"ยังไม่ได้ทำแบบประเมินนี้"}</span>`;
+  $("#s3").textContent=!ds&&!de?"ทำแบบประเมินอย่างน้อยหนึ่งชุดด้านบนเพื่อดูภาพรวมความเสี่ยงด้านการนอนหลับของคุณที่นี่":((ds&&sb>=3)||(de&&es>=11)?"มีสัญญาณที่ควรให้เจ้าหน้าที่ประเมินต่อ แนะนำให้ส่งคำขอโทรกลับด้านล่าง":"คะแนนยังไม่สูง แต่หากมีอาการต่อเนื่อง สามารถส่งคำขอปรึกษาได้ด้านล่าง");
+}
+function drawQs(){
+  $("#qs").innerHTML=qsHtml();
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const A=tab==="sb"?SBA:ESA,i=+b.dataset.i;A[i]=+b.dataset.v;
+    b.parentNode.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b));refresh()});
+  refresh();
+}
+function bindPatient(){
+  if(pub||isStaff){const m=document.querySelector(".mine");if(m)m.remove()}
+  if(flash){const n=document.createElement("div");n.className="note";n.style.cssText="margin-bottom:12px;font-weight:600";n.textContent=flash;$("#app").prepend(n)}
+  document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;drawQs()});
+  drawQs();
+  if(pub){
+    $("#cbox").innerHTML=`<h3 style="margin-top:22px">ข้อมูลผู้รับบริการ (ผู้รับบริการกรอกเอง)</h3>
+<label>ชื่อ–นามสกุล</label><input id="pn" autocomplete="name" value="${esc(P.n)}">
+<label>เบอร์โทรศัพท์</label><input id="pp" inputmode="tel" autocomplete="tel" value="${esc(P.p)}">
+<label>ช่วงเวลาที่สะดวกให้โทรกลับ</label><select id="pt">${["08:00–12:00","13:00–16:00","ไม่ระบุ"].map(x=>`<option${x===P.t?" selected":""}>${x}</option>`).join("")}</select>
+<label style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="pc" style="width:auto;margin-top:5px"${P.c?" checked":""}> <span>ข้าพเจ้ายินยอมให้โรงพยาบาลใช้ข้อมูลนี้เพื่อคัดกรองและติดต่อกลับเท่านั้น</span></label>
+<div style="position:absolute;left:-9999px" aria-hidden="true"><input id="hp" tabindex="-1" autocomplete="off"></div>
+<p><button class="btn pri" id="send2">ส่งคำขอให้เจ้าหน้าที่โทรกลับ</button></p><div id="pe" class="over"></div>
+<div class="note" style="background:#efe4cb;color:#4a4436">ข้อมูลนี้ส่งถึงเจ้าหน้าที่โรงพยาบาลเพื่อโทรกลับเท่านั้น ไม่ต้องสมัครสมาชิกหรือล็อกอิน${CLINIC_PHONE?`<br>หรือโทรหาคลินิกโดยตรง: <a href="tel:${esc(CLINIC_PHONE)}">${esc(CLINIC_PHONE)}</a>`:""}</div>`;
+    $("#pn").oninput=e=>P.n=e.target.value;$("#pp").oninput=e=>P.p=e.target.value;$("#pt").onchange=e=>P.t=e.target.value;$("#pc").onchange=e=>P.c=e.target.checked;
+    $("#send2").onclick=async()=>{
+      const n=P.n.trim(),p=P.p.trim(),btn=$("#send2");
+      if(done(SBA)!==8&&done(ESA)!==8){$("#pe").textContent="กรุณาทำแบบประเมินอย่างน้อยหนึ่งชุดให้ครบก่อนส่ง";return}
+      if(!n||p.replace(/\D/g,"").length<9){$("#pe").textContent="กรุณากรอกชื่อและเบอร์โทรให้ถูกต้อง";return}
+      if(!P.c){$("#pe").textContent="กรุณากดยินยอมการใช้ข้อมูลก่อนส่ง";return}
+      btn.disabled=true;$("#pe").textContent="";
+      try{await API("POST","/api/public/submit",{name:n,phone:p,time:P.t,consent:true,website:$("#hp").value,sb:done(SBA)===8?SBA:null,ess:done(ESA)===8?ESA:null});
+        SBA=Array(8).fill(null);ESA=Array(8).fill(null);P={n:"",p:"",t:"08:00–12:00",c:false,ch:"โทรศัพท์"};
+        flash="ส่งคำขอเรียบร้อยแล้ว เจ้าหน้าที่จะโทรกลับตามช่วงเวลาที่แจ้งไว้";render();window.scrollTo(0,0)}
+      catch(e){btn.disabled=false;$("#pe").textContent=e.status===429?"ส่งบ่อยเกินไป กรุณาลองใหม่ภายหลัง":"ส่งไม่สำเร็จ กรุณาลองใหม่"+(CLINIC_PHONE?" หรือโทร "+CLINIC_PHONE:"")}
+    };
+    return}
+  if($("#pch"))$("#pch").onchange=e=>P.ch=e.target.value;
+  $("#pn").oninput=e=>P.n=e.target.value;$("#pp").oninput=e=>P.p=e.target.value;
+  $("#pt").onchange=e=>P.t=e.target.value;$("#pc").onchange=e=>P.c=e.target.checked;
+  $("#send").onclick=async()=>{
+    const btn=$("#send"),n=P.n.trim(),p=P.p.trim(),ds=done(SBA)===8,de=done(ESA)===8;
+    if(!ds&&!de&&!isStaff){$("#pe").textContent="กรุณาทำแบบประเมินอย่างน้อยหนึ่งชุดให้ครบก่อนส่ง";return}
+    if(!n||p.replace(/\D/g,"").length<9){$("#pe").textContent="กรุณากรอกชื่อและเบอร์โทรให้ถูกต้อง";return}
+    if(!P.c){$("#pe").textContent="กรุณากดยินยอมการใช้ข้อมูลก่อนส่ง";return}
+    const s=STAGES[0];btn.disabled=true;
+    const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    try{await col.doc(id).set({uid,name:n,phone:p,time:P.t,ess:de?sum(ESA):null,sb:ds?sum(SBA):null,hn:"",stage:"callback",nextTask:s.task,owner:s.own,due:addDays(s.d),createdAt:today(),note:"",log:[{d:today(),t:isStaff?"เจ้าหน้าที่บันทึกแทนผู้รับบริการ (ช่องทาง: "+P.ch+")":"รับคำขอจากผู้รับบริการ"}]});
+      SBA=Array(8).fill(null);ESA=Array(8).fill(null);P={n:"",p:"",t:"08:00–12:00",c:false,ch:"โทรศัพท์"};flash=isStaff?"บันทึกเคสใหม่เรียบร้อยแล้ว ดูได้ที่แท็บ เจ้าหน้าที่ดูแลระบบ → ทะเบียนเคส":"ส่งคำขอเรียบร้อยแล้ว เจ้าหน้าที่จะโทรกลับตามช่วงเวลาที่แจ้งไว้";render();window.scrollTo(0,0)}
+    catch(x){$("#pe").textContent="ส่งไม่สำเร็จ กรุณาลองใหม่";btn.disabled=false}
+  };
+}
+/* ---------- เจ้าหน้าที่ ---------- */
+let sv="list",cy0=new Date().getFullYear(),cm0=new Date().getMonth();
+let filt="open",q="";
+function staffHtml(){return `<div class="tabs"><button data-sv="list" class="${sv==="list"?"on":""}">ทะเบียนเคส</button><button data-sv="cal" class="${sv==="cal"?"on":""}">ปฏิทินนัดตรวจ Sleep test</button></div>`+(sv==="cal"?calHtml():staffList())}
+function staffList(){
+  const open=cases.filter(c=>c.stage!=="closed"),t=today();
+  const cnt=k=>cases.filter(c=>c.stage===k).length;
+  const late=open.filter(c=>c.due<t).length;
+  let list=cases.filter(c=>filt==="open"?c.stage!=="closed":filt==="all"?true:c.stage===filt);
+  if(q)list=list.filter(c=>(c.name+c.phone+(c.hn||"")).includes(q));
+  list.sort((a,b)=>(a.due||"").localeCompare(b.due||""));
+  return `<div class="card"><h2>ภาพรวมงานวันนี้</h2><div class="grid">
+<div class="stat"><b>${open.length}</b><span>เคสที่เปิดอยู่</span></div>
+<div class="stat"><b class="${late?"over":""}">${late}</b><span>เกินกำหนด</span></div>
+${STAGES.slice(0,6).map(s=>`<div class="stat"><b>${cnt(s.k)}</b><span>${s.n}</span></div>`).join("")}</div></div>
+<div class="card"><h2>ทะเบียนเคส</h2><div class="row" style="margin-bottom:10px">
+<select id="ff" style="width:auto"><option value="open">เคสที่เปิดอยู่</option><option value="all">ทั้งหมด</option>${STAGES.map(s=>`<option value="${s.k}">${s.n}</option>`).join("")}</select>
+<input id="fq" placeholder="ค้นหาชื่อ / เบอร์ / HN" value="${esc(q)}" style="flex:1;min-width:160px"></div>
+<div class="scroll"><table><tr><th>ผู้รับบริการ</th><th>สถานะปัจจุบัน</th><th>งานถัดไป</th><th>ผู้รับผิดชอบ</th><th>ครบกำหนด</th><th></th></tr>
+${list.map(c=>`<tr><td><b>${esc(c.name)}</b><br><span class="mu">${esc(c.phone)} · HN ${esc(c.hn||"ยังไม่เชื่อม")}<br>ESS ${c.ess??"-"} · STOP-BANG ${c.sb??"-"} · สะดวก ${esc(c.time)}</span></td>
+<td><span class="badge">${esc(sg(c.stage).n)}</span></td><td>${esc(c.nextTask)}${pend(c)}</td><td>${esc(c.owner)}</td>
+<td class="${c.stage!=="closed"&&c.due<t?"over":""}">${fd(c.due)}</td><td><button class="btn" data-id="${c.id}">จัดการ</button></td></tr>`).join("")||`<tr><td colspan="6" class="mu">ไม่มีเคส</td></tr>`}
+</table></div></div>`;
+}
+function bindStaff(){document.querySelectorAll('[data-sv]').forEach(b=>b.onclick=()=>{sv=b.dataset.sv;render()});if(sv==='cal'){bindCal();return}
+  $("#ff").value=filt;$("#ff").onchange=e=>{filt=e.target.value;render()};
+  $("#fq").onchange=e=>{q=e.target.value.trim();render()};
+  document.querySelectorAll("button[data-id]").forEach(b=>b.onclick=()=>openCase(b.dataset.id));
+}
+const TESTS=[["blood","ตรวจเลือด"],["cxr","เอกซเรย์ทรวงอก"],["ecg","ECG/EKG"],["oth","อื่น ๆ"]];
+let CLINIC_PHONE="";
+const RIGHTS=[["","เลือก"],["dd","เบิกจ่ายตรง"],["lao","เบิกจ่ายตรง อปท."],["adv","สำรองจ่าย เบิกต้นสังกัด"],["self","ชำระเงินเอง"],["other","อื่น ๆ"]];
+const AK=["hn","fnTh","lnTh","fnEn","lnEn","addr","phone","symptoms","sleepHx","allergy","allergyWhat","allergyRx","cd","hyp","dm","dlp","othOn","otherDz","meds","wt","h","bp","pr","rr","temp","spo2","neck","waist","sb","ess","testType","indication","plan","doctor","sleepRoom","rights","rightsOther","s_note","s_wt","s_h","s_bp","s_pr","s_rr","s_temp","s_spo2","s_neck","s_waist"];
+const DK=["dob","mdate","sdate","sleepDate","s_mdate"];
+const MON=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+const p2=n=>String(n).padStart(2,"0");
+function DI(id,val,kind){
+  const[y,m,d]=(val||"").split("-"),cy=new Date().getFullYear(),y0=kind==="dob"?cy-100:cy-1,y1=kind==="dob"?cy:cy+2;
+  let D='<option value="">วัน</option>',M='<option value="">เดือน</option>',Y='<option value="">ปี พ.ศ.</option>';
+  for(let k=1;k<=31;k++)D+=`<option value="${p2(k)}"${+d===k?" selected":""}>${k}</option>`;
+  MON.forEach((n,k)=>M+=`<option value="${p2(k+1)}"${+m===k+1?" selected":""}>${n}</option>`);
+  for(let k=y1;k>=y0;k--)Y+=`<option value="${k}"${+y===k?" selected":""}>${k+543}</option>`;
+  return `<div class="dt" id="${id}"><select>${D}</select><select>${M}</select><select>${Y}</select></div>`;
+}
+function getD(id){const s=[...document.querySelectorAll("#"+id+" select")].map(x=>x.value);return s[0]&&s[1]&&s[2]?`${s[2]}-${s[1]}-${s[0]}`:""}
+function pend(c){const A=c.assess||{},t=A.tests||{};const r=TESTS.filter(x=>t[x[0]]&&t[x[0]].on).map(x=>(x[0]==="oth"&&t.oth.name?t.oth.name:x[1])+(t[x[0]].due?" ("+fd(t[x[0]].due)+")":""));
+  return (A.sleepDate?`<br><span class="mu">นัดตรวจ Sleep test: ${fd(A.sleepDate)}${A.sleepRoom?" ห้อง "+A.sleepRoom:""}</span>`:"")+(r.length?`<br><span class="mu">รอผลตรวจเพิ่มเติม: ${esc(r.join(", "))}</span>`:"")}
+function rightsLabel(A){const r=RIGHTS.find(x=>x[0]===A.rights);return A.rights==="other"&&A.rightsOther?A.rightsOther:(r&&r[0]?r[1]:"-")}
+function slots(){return cases.filter(c=>c.assess&&c.assess.sleepDate).map(c=>{const A=c.assess;return{id:c.id,date:A.sleepDate,room:A.sleepRoom||"",name:((A.fnTh||"")+" "+(A.lnTh||"")).trim()||c.name,rights:rightsLabel(A),phone:A.phone||c.phone,type:A.testType||"-",stage:c.stage}})}
+function calHtml(){
+  const dim=new Date(cy0,cm0+1,0).getDate(),lead=new Date(cy0,cm0,1).getDay(),pre=cy0+"-"+p2(cm0+1)+"-",all=slots().filter(s=>s.date.startsWith(pre)).sort((a,b)=>a.date.localeCompare(b.date)||a.room.localeCompare(b.room)),t=today();
+  let cells="";for(let i=0;i<lead;i++)cells+="<div></div>";
+  for(let dd=1;dd<=dim;dd++){const dt=pre+p2(dd),it=all.filter(s=>s.date===dt);
+    const slot=r=>{const s=it.find(x=>x.room===r);return s?`<div class="slot b" data-id="${s.id}"><b>ห้อง ${r}</b> ${esc(s.name)}<br>${esc(s.phone)} · ${esc(s.rights)}</div>`:`<div class="slot f">ห้อง ${r}: ว่าง</div>`};
+    const un=it.filter(x=>x.room!=="1"&&x.room!=="2").map(s=>`<div class="slot x" data-id="${s.id}"><b>ไม่ระบุห้อง</b> ${esc(s.name)}<br>${esc(s.phone)} · ${esc(s.rights)}</div>`).join("");
+    cells+=`<div class="cdy${dt===t?" today":""}"><b>${dd}</b>${slot("1")}${slot("2")}${un}</div>`}
+  return `<div class="card"><div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 style="margin:0">ปฏิทินนัดตรวจ Sleep test — ${MON[cm0]} ${cy0+543}</h2>
+<div class="row"><button class="btn" data-nav="-1">‹ ก่อนหน้า</button><button class="btn" data-nav="0">เดือนนี้</button><button class="btn" data-nav="1">ถัดไป ›</button></div></div>
+<p class="mu">เปิดตรวจ PSG วันละ 2 ห้อง (ห้องละ 1 รายต่อคืน) กดที่ชื่อเพื่อเปิดข้อมูลเคส ตั้งวัน-ห้องนัดได้ที่ "ประเมินก่อนตรวจ" → คำสั่งแพทย์และการตรวจการนอนหลับ</p>
+<div class="scroll"><div class="cal">${["อา","จ","อ","พ","พฤ","ศ","ส"].map(x=>`<div class="mu" style="text-align:center">${x}</div>`).join("")}${cells}</div></div></div>
+<div class="card"><h2>รายชื่อผู้มีนัดตรวจในเดือนนี้ (สำหรับโทรประสาน)</h2><div class="scroll"><table><tr><th>วันที่</th><th>ห้อง</th><th>ชื่อ–นามสกุล</th><th>สิทธิ์</th><th>เบอร์โทรศัพท์</th><th>ประเภทตรวจ</th><th></th></tr>
+${all.map(s=>`<tr><td>${fd(s.date)}</td><td>${s.room?"ห้อง "+s.room:"<span class='over'>ยังไม่ระบุ</span>"}</td><td><b>${esc(s.name)}</b></td><td>${esc(s.rights)}</td><td><a href="tel:${esc(s.phone)}">${esc(s.phone)}</a></td><td>${esc(s.type)}</td><td><button class="btn" data-id="${s.id}">จัดการ</button></td></tr>`).join("")||`<tr><td colspan="7" class="mu">ยังไม่มีนัดในเดือนนี้</td></tr>`}</table></div></div>`;
+}
+function bindCal(){
+  document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const n=+b.dataset.nav;if(!n){cy0=new Date().getFullYear();cm0=new Date().getMonth()}else{cm0+=n;if(cm0<0){cm0=11;cy0--}if(cm0>11){cm0=0;cy0++}}render()});
+  document.querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>openCase(b.dataset.id));
+}
+function openCase(id){
+  const c=cases.find(x=>x.id===id);if(!c)return;
+  const i=STAGES.findIndex(s=>s.k===c.stage),nx=STAGES[i+1],nm=(c.name||"").trim().split(/\s+/);
+  const a=Object.assign({hn:c.hn,phone:c.phone,fnTh:nm[0]||"",lnTh:nm.slice(1).join(" "),sb:c.sb??"",ess:c.ess??"",mdate:today(),sdate:today(),allergy:"unknown",cd:"",testType:"PSG"},c.assess||{});
+  if(!a.s_mdate&&a.sleepDate)a.s_mdate=a.sleepDate;const t=a.tests||{},d=$("#dlg");
+  const I=(k,l,ty="text",ph="")=>`<div><label>${l}</label><input id="a_${k}" type="${ty}" value="${esc(a[k])}" placeholder="${ph}"></div>`;
+  const D=(k,l,kd)=>`<div><label>${l}</label>${DI("a_"+k,a[k],kd)}</div>`;
+  const T=(k,l,r=2,ph="")=>`<div style="grid-column:1/-1"><label>${l}</label><textarea id="a_${k}" rows="${r}" placeholder="${ph}">${esc(a[k])}</textarea></div>`;
+  const CB=(k,l)=>`<label style="display:inline-flex;gap:6px;align-items:center;margin:8px 14px 0 0;color:var(--tx)"><input type="checkbox" id="a_${k}" style="width:auto"${a[k]?" checked":""}>${l}</label>`;
+  const SEL=(k,l,o)=>`<div><label>${l}</label><select id="a_${k}">${o.map(x=>`<option value="${x[0]}"${a[k]===x[0]?" selected":""}>${x[1]}</option>`).join("")}</select></div>`;
+  d.innerHTML=`<div class="row" style="justify-content:space-between"><h2 style="margin:0">${esc(c.name)}</h2><button class="btn" id="dx">ปิด</button></div>
+<p class="mu">${esc(c.phone)} · ส่งคำขอ ${fd(c.createdAt)}</p>
+<div class="tabs"><button class="on" data-p="p1">ข้อมูลเคสและส่งต่องาน</button><button data-p="p2">ประเมินก่อนตรวจ</button></div>
+<div id="p1"><h3>แก้ไขข้อมูลผู้รับบริการ</h3>
+<div class="g2"><div><label>ชื่อ–นามสกุล</label><input id="dnm" value="${esc(c.name)}"></div><div><label>เบอร์โทรศัพท์</label><input id="dph" value="${esc(c.phone)}"></div>
+<div><label>ช่วงเวลาที่สะดวกให้โทรกลับ</label><select id="dtm">${["08:00–12:00","13:00–16:00","ไม่ระบุ"].map(x=>`<option${x===c.time?" selected":""}>${x}</option>`).join("")}</select></div>
+<div><label>สถานะปัจจุบัน (แก้ได้หากบันทึกผิด)</label><select id="dsg">${STAGES.map(g=>`<option value="${g.k}"${g.k===c.stage?" selected":""}>${g.n}</option>`).join("")}</select></div>
+<div><label>งานถัดไป</label><input id="dnt" value="${esc(c.nextTask)}"></div></div>
+<label>HN (เชื่อมกับเวชระเบียนเมื่อยืนยันตัวตนแล้ว)</label><input id="dh" value="${esc(c.hn)}">
+<label>ผู้รับผิดชอบ</label><input id="do" value="${esc(c.owner)}">
+<label>วันครบกำหนด (วัน เดือน ปี)</label>${DI("dd",c.due,"fut")}
+<label>บันทึกผลการติดต่อ / หมายเหตุ</label><textarea id="dn" rows="2" placeholder="เช่น โทรไม่ติด–นัดโทรซ้ำ, ขอเลื่อนนัด">${esc(c.note)}</textarea>
+<div class="row" style="margin-top:12px"><button class="btn" id="ds">บันทึก</button>${nx?`<button class="btn pri" id="da">เสร็จงานนี้ → ${esc(nx.n)}</button>`:""}<button class="btn" id="del" style="color:var(--er)">ลบเคส</button></div><div id="dm" class="mu" style="margin-top:8px"></div>
+<h3>ประวัติการส่งต่องาน</h3>${[...(c.log||[])].reverse().map(l=>`<div class="mu">${fd(l.d)} — ${esc(l.t)}</div>`).join("")}</div>
+<div id="p2" class="hide"><div class="note">ข้อมูลประจำตัวควรดึงจากเวชระเบียนตาม HN ส่วนสัญญาณชีพและการวัดต่าง ๆ ให้กรอกตอนตรวจร่างกาย พร้อมวันที่ตรวจ</div>
+<h3>ข้อมูลประจำตัว</h3><div class="g2">${I("hn","HN")}${I("fnTh","ชื่อ (ไทย)")}${I("lnTh","นามสกุล (ไทย)")}${I("fnEn","First name (อังกฤษ)")}${I("lnEn","Last name (อังกฤษ)")}${D("dob","วัน เดือน ปีเกิด","dob")}
+<div><label>อายุ ณ วันที่รับบริการ</label><input id="a_age" readonly></div>${I("phone","เบอร์โทร","tel")}${SEL("rights","สิทธิ์การรักษา",RIGHTS)}${I("rightsOther","สิทธิ์อื่น ๆ (ระบุ)")}</div>${T("addr","ที่อยู่",2)}
+<h3>อาการและประวัติ</h3><div class="g2">${T("symptoms","อาการสำคัญ",2)}${T("sleepHx","ประวัติการนอน",2)}</div>
+<h3>ประวัติสุขภาพ</h3><div class="g2">${SEL("allergy","แพ้ยา สารเคมี หรืออาหาร",[["deny","ปฏิเสธ"],["has","มี"],["unknown","ยังไม่ทราบ"]])}${I("allergyWhat","สารที่แพ้")}${I("allergyRx","อาการแพ้")}
+${SEL("cd","โรคประจำตัว",[["","เลือก"],["none","ไม่มี"],["has","มี"]])}</div>
+<div id="cdbox" class="${a.cd==="has"?"":"hide"}"><label>หากมี ให้เลือกและระบุ</label>${CB("hyp","HT")}${CB("dm","DM")}${CB("dlp","DLP")}${CB("othOn","อื่น ๆ")}<input id="a_otherDz" placeholder="อื่น ๆ โปรดระบุ" value="${esc(a.otherDz)}" style="margin-top:8px"></div>
+<div class="g2">${T("meds","รายการยาประจำ",2)}</div>
+<h3>ตรวจร่างกาย (กรอกตอนตรวจร่างกาย)</h3><div class="g2">${D("mdate","วัน เดือน ปี ที่ตรวจร่างกาย","fut")}${I("wt","น้ำหนัก (กก.)","number")}${I("h","ส่วนสูง (ซม.)","number")}<div><label>BMI (คำนวณอัตโนมัติ)</label><input id="a_bmi" readonly></div>
+${I("bp","ความดันโลหิต (mmHg)","text","120/80")}${I("pr","ชีพจร (ครั้ง/นาที)","number")}${I("rr","อัตราหายใจ (ครั้ง/นาที)","number")}${I("temp","อุณหภูมิ (°C)","number")}${I("spo2","SpO₂ ขณะตื่น (%)","number")}${I("neck","รอบคอ (ซม.)","number")}${I("waist","รอบเอว (ซม.)","number")}</div>
+<h3>คะแนนคัดกรอง</h3><div class="g2">${I("sb","STOP-BANG (0–8)","number")}${I("ess","ESS (0–24)","number")}${D("sdate","วัน เดือน ปี ที่ประเมิน","fut")}</div>
+<h3>คำสั่งแพทย์และการตรวจการนอนหลับ</h3><div class="g2">${SEL("testType","ประเภทการตรวจการนอนหลับ",[["PSG","PSG (ในห้องปฏิบัติการ)"]])}${I("doctor","แพทย์ผู้สั่ง")}${D("sleepDate","วัน เดือน ปี ที่มาตรวจ Sleep test","fut")}${SEL("sleepRoom","ห้องตรวจ Sleep test",[["","เลือก"],["1","ห้อง 1"],["2","ห้อง 2"]])}${T("indication","ข้อบ่งชี้",2)}${T("plan","แผนแพทย์ / คำสั่งอื่น ๆ",2)}</div>
+<label>ตรวจเพิ่มเติม (ติ๊กเมื่อสั่ง พร้อมวันติดตามผล — จะแสดง "รอผลตรวจเพิ่มเติม" ในทะเบียน)</label>
+${TESTS.map(x=>{const v=t[x[0]]||{};return `<div class="row" style="margin-top:6px"><label style="display:inline-flex;gap:6px;align-items:center;margin:0;color:var(--tx);min-width:150px"><input type="checkbox" id="t_on_${x[0]}" style="width:auto"${v.on?" checked":""}>${x[1]}</label>${x[0]==="oth"?`<input id="t_name_oth" placeholder="ระบุรายการ" value="${esc(v.name)}" style="flex:1;min-width:120px">`:""}<div style="min-width:260px;flex:1">${DI("t_due_"+x[0],v.due,"fut")}</div></div>`}).join("")}
+<h3>บันทึกในวัน Sleep test (ทวนและวัดซ้ำ)</h3><div class="g2">${D("s_mdate","วัน เดือน ปี ที่วัด","fut")}${I("s_wt","น้ำหนัก (กก.)","number")}${I("s_h","ส่วนสูง (ซม.)","number")}<div><label>BMI (คำนวณอัตโนมัติ)</label><input id="a_s_bmi" readonly></div>${I("s_bp","ความดันโลหิต (mmHg)","text","120/80")}${I("s_pr","ชีพจร (ครั้ง/นาที)","number")}${I("s_rr","อัตราหายใจ (ครั้ง/นาที)","number")}${I("s_temp","อุณหภูมิ (°C)","number")}${I("s_spo2","SpO₂ ขณะตื่น (%)","number")}${I("s_neck","รอบคอ (ซม.)","number")}${I("s_waist","รอบเอว (ซม.)","number")}${T("s_note","ทวนข้อมูลสำคัญ / เหตุการณ์และหมายเหตุวันตรวจ",2)}</div>
+<p><button class="btn pri" id="as">บันทึกการประเมิน</button> <span id="am" class="mu"></span></p></div>`;
+  d.showModal();
+  const bm=(x,y,o)=>{const w=+$("#a_"+x).value,h=+$("#a_"+y).value;$("#a_"+o).value=w>0&&h>0?(w/((h/100)**2)).toFixed(1):""};const calc=()=>{bm("wt","h","bmi");bm("s_wt","s_h","s_bmi");
+    const b=getD("a_dob"),r=getD("a_mdate")||today();if(b){const x=new Date(b),y=new Date(r);let ag=y.getFullYear()-x.getFullYear();if(y<new Date(y.getFullYear(),x.getMonth(),x.getDate()))ag--;$("#a_age").value=ag>=0?ag+" ปี":""}else $("#a_age").value=""};
+  $("#p2").addEventListener("input",calc);$("#p2").addEventListener("change",calc);calc();
+  $("#a_cd").onchange=()=>$("#cdbox").classList.toggle("hide",$("#a_cd").value!=="has");
+  d.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{d.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));$("#p1").classList.toggle("hide",b.dataset.p!=="p1");$("#p2").classList.toggle("hide",b.dataset.p!=="p2")});
+  $("#dx").onclick=()=>d.close();
+  const get=()=>({name:$("#dnm").value.trim()||c.name,phone:$("#dph").value.trim(),time:$("#dtm").value,stage:$("#dsg").value,nextTask:$("#dnt").value.trim(),hn:$("#dh").value.trim(),owner:$("#do").value.trim(),due:getD("dd"),note:$("#dn").value.trim()});
+  $("#dsg").onchange=()=>{const g=sg($("#dsg").value);$("#dnt").value=g.task;$("#do").value=g.own};
+  $("#del").onclick=()=>{$("#dm").innerHTML='ลบเคสนี้ถาวร? <button class="btn" id="dy" style="color:var(--er)">ยืนยันลบ</button> <button class="btn" id="dc">ยกเลิก</button>';
+    $("#dy").onclick=async()=>{try{await col.doc(id).delete();d.close()}catch(e){$("#dm").textContent="ลบไม่สำเร็จ"}};$("#dc").onclick=()=>{$("#dm").textContent=""}};
+  $("#ds").onclick=async()=>{const v=get();const log=[...(c.log||[])];
+    if(v.note&&v.note!==c.note)log.push({d:today(),t:"บันทึก: "+v.note});
+    if(v.stage!==c.stage)log.push({d:today(),t:"แก้ไขสถานะเป็น: "+sg(v.stage).n});else if(v.name!==c.name||v.phone!==c.phone)log.push({d:today(),t:"แก้ไขข้อมูลผู้รับบริการ"});
+    try{await col.doc(id).update({...v,log});d.close()}catch(e){$("#dm").textContent="บันทึกไม่สำเร็จ"}};
+  if(nx)$("#da").onclick=async()=>{const v=get();const log=[...(c.log||[]),{d:today(),t:`เสร็จ "${c.nextTask}" → ${nx.n}`}];
+    try{await col.doc(id).update({name:v.name,phone:v.phone,time:v.time,hn:v.hn,note:v.note,stage:nx.k,nextTask:nx.task,owner:nx.own,due:nx.d?addDays(nx.d):"-",log});d.close()}catch(e){$("#dm").textContent="บันทึกไม่สำเร็จ"}};
+  $("#as").onclick=async()=>{
+    const o={};AK.forEach(k=>{const e=$("#a_"+k);o[k]=e.type==="checkbox"?e.checked:e.value.trim()});
+    DK.forEach(k=>o[k]=getD("a_"+k));
+    if(o.cd!=="has"){o.hyp=o.dm=o.dlp=o.othOn=false;o.otherDz=""}
+    o.bmi=$("#a_bmi").value;o.s_bmi=$("#a_s_bmi").value;
+    if(o.sleepDate&&o.sleepRoom){const cf=cases.find(x=>x.id!==id&&x.assess&&x.assess.sleepDate===o.sleepDate&&x.assess.sleepRoom===o.sleepRoom);if(cf){$("#am").textContent="ห้อง "+o.sleepRoom+" วันที่ "+fd(o.sleepDate)+" มีนัดแล้ว ("+cf.name+") กรุณาเลือกห้องหรือวันอื่น";return}}o.tests={};TESTS.forEach(x=>{o.tests[x[0]]={on:$("#t_on_"+x[0]).checked,due:getD("t_due_"+x[0])}});o.tests.oth.name=$("#t_name_oth").value.trim();
+    const nmTh=(o.fnTh+" "+o.lnTh).trim();
+    const log=[...(c.log||[]),{d:today(),t:"บันทึกประเมินก่อนตรวจ"+(Object.values(o.tests).some(v=>v&&v.on)?" (สั่งตรวจเพิ่มเติม)":"")}];
+    try{await col.doc(id).update({assess:o,hn:o.hn||c.hn,phone:o.phone||c.phone,log});$("#am").textContent="บันทึกแล้ว"}catch(e){$("#am").textContent="บันทึกไม่สำเร็จ"}};
+}
+render();init();
+</script>
+</body>
+</html>

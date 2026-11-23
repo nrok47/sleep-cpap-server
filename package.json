@@ -1,0 +1,11 @@
+{
+  "name": "sleep-cpap-system",
+  "version": "1.0.0",
+  "description": "ระบบบริการตรวจการนอนหลับและติดตาม CPAP (ติดตั้งเองในโรงพยาบาล)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=22.13" },
+  "license": "UNLICENSED",
+  "private": true
+}
