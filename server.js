@@ -133,18 +133,22 @@ async function api(req, res, url, p, ip) {
 
   if (p === '/api/cases' && method === 'GET') {
     const t = Date.now(); if (t - (lastList.get(me.username) || 0) > 6e5) { audit(me.username, 'เปิดดูทะเบียนเคส', '', ip); lastList.set(me.username, t); }
-    return send(res, 200, db.prepare('SELECT id,json FROM cases').all().map(r => ({ id: r.id, ...JSON.parse(r.json) })));
+    return send(res, 200, db.prepare('SELECT id,json,updated FROM cases').all().map(r => ({ id: r.id, ...JSON.parse(r.json), _rev: r.updated })));
   }
   const cm = /^\/api\/cases\/([A-Za-z0-9_-]+)$/.exec(p);
   if (cm) {
     const id = cm[1]; if (!idOk(id)) return fail(res, 400, 'bad id');
     if (method === 'PUT' || method === 'PATCH') {
       const b = await body(req); if (!b || typeof b !== 'object' || Array.isArray(b)) return fail(res, 400, 'bad body'); delete b.id;
-      const row = db.prepare('SELECT json FROM cases WHERE id=?').get(id);
+      const rev = b._rev; delete b._rev;
+      const row = db.prepare('SELECT json,updated FROM cases WHERE id=?').get(id);
+      // กันสองคนแก้เคสเดียวกันแล้วทับกัน (lost update): ต้องส่ง _rev ที่ได้ตอนโหลดเคสมาด้วย
+      if (row && rev !== row.updated) return fail(res, 409, 'เคสนี้ถูกแก้ไขไปแล้วโดยผู้ใช้อื่น กรุณารีเฟรชหน้าจอแล้วแก้ใหม่');
       if (method === 'PATCH') { if (!row) return fail(res, 404, 'not found'); Object.assign(b, { ...JSON.parse(row.json), ...b }); }
-      if (row) db.prepare('UPDATE cases SET json=?,updated=? WHERE id=?').run(JSON.stringify(b), now(), id);
-      else db.prepare('INSERT INTO cases(id,json,created,updated) VALUES(?,?,?,?)').run(id, JSON.stringify(b), now(), now());
-      audit(me.username, row ? 'แก้ไขเคส' : 'สร้างเคส', id + ' ' + (b.name || ''), ip); return send(res, 200, { ok: true });
+      let rev2 = now(); if (row && rev2 === row.updated) rev2 = new Date(Date.parse(rev2) + 1).toISOString();
+      if (row) db.prepare('UPDATE cases SET json=?,updated=? WHERE id=?').run(JSON.stringify(b), rev2, id);
+      else db.prepare('INSERT INTO cases(id,json,created,updated) VALUES(?,?,?,?)').run(id, JSON.stringify(b), rev2, rev2);
+      audit(me.username, row ? 'แก้ไขเคส' : 'สร้างเคส', id + ' ' + (b.name || ''), ip); return send(res, 200, { ok: true, _rev: rev2 });
     }
     if (method === 'DELETE') {
       const row = db.prepare('SELECT json FROM cases WHERE id=?').get(id);
