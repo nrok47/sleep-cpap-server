@@ -37,8 +37,13 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertica
 .hide{display:none}dialog{border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);max-width:780px;width:94%;max-height:92vh;overflow:auto}.dt{display:flex;gap:6px}.dt select{flex:1;min-width:0;padding:9px 6px}.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 12px}
 .sc{border-radius:18px;overflow:hidden;background:#f7f0e3;color:#1c2a4d;margin-bottom:14px;font-family:'Noto Sans Thai',sans-serif}
 .sc h1,.sc h2,.sc h3,.sc h4{font-family:'Noto Serif Thai','Noto Sans Thai',serif;color:#1c2a4d}
-.sc .hero{background:linear-gradient(135deg,#5b4b9e,#8a7bd0);color:#fff;padding:22px 20px}
-.sc .hero h1{margin:0 0 8px;font-size:26px;color:#fff}.sc .hero h1 span{color:#ffd77a}.sc .hero p{margin:0;font-size:14px;opacity:.95}
+.sc .hero{position:relative;isolation:isolate;overflow:hidden;color:#fff;padding:26px 20px 104px;
+  background:linear-gradient(180deg,#12293a 0%,#1d4a60 48%,#14333f 100%);min-height:250px}
+.sc .hero>#bedfx{position:absolute;inset:0;z-index:0;display:block;width:100%;height:100%}
+.sc .hero>h1,.sc .hero>p{position:relative;z-index:1}
+.sc .hero h1{margin:0 0 8px;font-size:26px;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.sc .hero h1 span{color:#9fd4e8}
+.sc .hero p{margin:0;font-size:14px;opacity:.95;max-width:46ch;text-shadow:0 1px 14px rgba(0,0,0,.75)}
 .sc .sb{padding:22px 18px}.sc .eb{font-size:13px;letter-spacing:.04em;color:#5b6070}
 .sc h2{font-size:22px;margin:2px 0 6px}.sc .sub{font-size:14px;color:#5b6070;margin:0 0 14px}
 .sc label{color:#4a5068}.sc input,.sc select{background:#fffdf8;color:#1c2a4d;border-color:#d8cfbd}
@@ -136,6 +141,9 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertica
 .a11y button.on{background:#1c2a4d;color:#fff;border-color:#1c2a4d}
 .a11y .f1{font-size:13px}.a11y .f2{font-size:16px}.a11y .f3{font-size:19px}
 :root[data-contrast="hi"] .sc{background:#fff}
+:root[data-contrast="hi"] .sc .hero,:root[data-fs="l"] .sc .hero,:root[data-fs="xl"] .sc .hero{background:#1c2a4d;min-height:0;padding:22px 20px}
+:root[data-contrast="hi"] #bedfx,:root[data-fs="l"] #bedfx,:root[data-fs="xl"] #bedfx{display:none!important}
+@media (prefers-reduced-motion:reduce){#bedfx{display:none!important}.sc .hero{min-height:0;padding:22px 20px}}
 :root[data-contrast="hi"] .qc{background:#fff;border:2px solid #1c2a4d}
 :root[data-contrast="hi"] .opt{background:#fff;border:2px solid #1c2a4d;color:#000;font-weight:600}
 :root[data-contrast="hi"] .qc p,:root[data-contrast="hi"] .sc .sub,:root[data-contrast="hi"] .sc .eb{color:#303030}
@@ -265,6 +273,7 @@ function render(){
   if(view==="admin"&&isAdmin){$("#app").innerHTML='<div id="adm" class="card">กำลังโหลด…</div>';loadAdmin();return}
   $("#app").innerHTML=view==="staff"&&isStaff?staffHtml():patientHtml();
   view==="staff"&&isStaff?bindStaff():bindPatient();
+  bedfx();
 }
 /* ---------- ผู้รับบริการ ---------- */
 // ---------- ไอคอนประจำข้อคำถาม (SVG ฝังในไฟล์ ไม่โหลดจากข้างนอก ใช้ได้ตอนเน็ตหลุด) ----------
@@ -307,7 +316,7 @@ function patientHtml(){
   const mine=cases.filter(c=>c.uid===uid).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
   return `<div class="card mine"><h2>ติดตามคำขอของฉัน</h2>${mine.length?mine.map(c=>{const s=sg(c.stage);return `<div class="case"><div class="row"><span class="badge">${esc(s.n)}</span><span class="mu">ส่งคำขอ ${fd(c.createdAt)}</span></div>
 <p style="margin:8px 0 0">ขั้นตอนถัดไป: <b>${esc(c.nextTask)}</b><br><span class="mu">ผู้รับผิดชอบ: ${esc(c.owner)} · กำหนด ${fd(c.due)}</span></p></div>`}).join(""):`<p class="mu">ยังไม่มีคำขอ ทำแบบประเมินด้านล่างแล้วส่งคำขอให้โทรกลับได้</p>`}</div>
-<div class="sc"><div class="hero"><h1>Smart Sleep Check <span>เช็กการนอนหลับดี</span></h1><p>ประเมินความเสี่ยงภาวะหยุดหายใจขณะหลับและอาการง่วงผิดปกติในเวลากลางวัน ด้วยแบบสอบมาตรฐานสากลสองชุด ตอบครบ รู้ผลทันที พร้อมคำอธิบายที่เข้าใจง่าย</p></div>
+<div class="sc"><div class="hero"><canvas id="bedfx" aria-hidden="true"></canvas><h1>Smart Sleep Check <span>เช็กการนอนหลับดี</span></h1><p>ประเมินความเสี่ยงภาวะหยุดหายใจขณะหลับและอาการง่วงผิดปกติในเวลากลางวัน ด้วยแบบสอบมาตรฐานสากลสองชุด ตอบครบ รู้ผลทันที พร้อมคำอธิบายที่เข้าใจง่าย</p></div>
 <div class="sb"><div class="a11y"><span>การอ่าน</span><button class="f1" data-fs="n">ก ปกติ</button><button class="f2" data-fs="l">ก ใหญ่</button><button class="f3" data-fs="xl">ก ใหญ่มาก</button><button data-ct="1">สีเข้มชัด</button></div><div class="eb">เลือกแบบประเมิน</div><h2>คุณอยากเริ่มเช็กเรื่องไหนก่อน</h2>
 <p class="sub">ทั้งสองแบบใช้เวลาไม่ถึง 2 นาที เลือกทำอย่างใดอย่างหนึ่ง หรือทำทั้งคู่เพื่อภาพรวมที่ครบถ้วนของสุขภาพการนอน</p>
 <div class="seg"><button data-tab="sb">STOP-BANG · เสี่ยงหยุดหายใจ</button><button data-tab="ess">Epworth (ESS) · ความง่วงกลางวัน</button></div>
@@ -581,6 +590,170 @@ ${TESTS.map(x=>{const v=t[x[0]]||{};return `<div class="row" style="margin-top:6
     const log=[...(c.log||[]),{d:today(),t:"บันทึกประเมินก่อนตรวจ"+(Object.values(o.tests).some(v=>v&&v.on)?" (สั่งตรวจเพิ่มเติม)":"")}];
     try{await col.doc(id).update({assess:o,hn:o.hn||c.hn,phone:o.phone||c.phone,log,_rev:c._rev});$("#am").textContent="บันทึกแล้ว"}catch(e){$("#am").textContent=saveErr(e)}};
 }
+
+/* ---------- ฉากห้องนอนกลางคืนบนหัวหน้าแรก ----------
+   Canvas 2D ล้วน ไม่มีไลบรารีและไม่โหลดอะไรจากข้างนอก ใช้ได้ตอนเน็ตหลุด
+   ปิดเองเมื่อ: สีเข้มชัด / ตัวอักษรใหญ่ / prefers-reduced-motion / วาดไม่สำเร็จ
+   อยู่เฉพาะหัวหน้าแรกของผู้รับบริการ ไม่มีในแบบประเมินและหน้าเจ้าหน้าที่ */
+let bfxRaf=null,bfxT=null;
+function bedfxOff(){
+  const R=document.documentElement;
+  return R.getAttribute("data-contrast")==="hi"
+      || R.getAttribute("data-fs")==="l" || R.getAttribute("data-fs")==="xl"
+      || (window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches);
+}
+function bedfx(){
+  if(bfxRaf){cancelAnimationFrame(bfxRaf);bfxRaf=null}
+  const cv=$("#bedfx"); if(!cv) return;
+  if(bedfxOff()){cv.style.display="none";return}
+  cv.style.display="block";
+  let ctx; try{ctx=cv.getContext("2d")}catch(e){}
+  if(!ctx){cv.style.display="none";return}
+
+  let W=0,H=0,dpr=1,back=null,mid=null,front=null,lmap=null,lctx=null;
+  const mk=(w,h)=>{const c=document.createElement("canvas");c.width=Math.max(1,w|0);c.height=Math.max(1,h|0);return c};
+  let sd=1337; const rn=()=>((sd=(sd*1664525+1013904223)%4294967296)/4294967296);
+  const rr=(g,x,y,w,h,r)=>{g.beginPath();g.moveTo(x+r,y);g.lineTo(x+w-r,y);g.quadraticCurveTo(x+w,y,x+w,y+r);
+    g.lineTo(x+w,y+h-r);g.quadraticCurveTo(x+w,y+h,x+w-r,y+h);g.lineTo(x+r,y+h);
+    g.quadraticCurveTo(x,y+h,x,y+h-r);g.lineTo(x,y+r);g.quadraticCurveTo(x,y,x+r,y);g.closePath()};
+
+  function paint(){
+    const r=cv.getBoundingClientRect();
+    W=Math.max(300,Math.round(r.width)); H=Math.max(180,Math.round(r.height));
+    dpr=Math.min(window.devicePixelRatio||1,2);
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const PW=W+46, PH=H+26;
+
+    back=mk(PW,PH); const b=back.getContext("2d");
+    const sk=b.createLinearGradient(0,0,0,PH);
+    sk.addColorStop(0,"#0f2436");sk.addColorStop(.5,"#1b4760");sk.addColorStop(1,"#2b6880");
+    b.fillStyle=sk;b.fillRect(0,0,PW,PH);
+    sd=1337;
+    for(let i=0;i<120;i++){b.globalAlpha=rn()*.75+.25;b.fillStyle="#eaf8ff";
+      b.beginPath();b.arc(rn()*PW,rn()*PH*.7,rn()*1.3+.35,0,6.283);b.fill()}
+    b.globalAlpha=1;
+    const mx=PW*.76,my=PH*.24,mr=Math.max(7,H*.05);
+    const mg=b.createRadialGradient(mx,my,0,mx,my,H*.62);
+    mg.addColorStop(0,"rgba(255,255,255,.9)");mg.addColorStop(.12,"rgba(205,236,250,.45)");
+    mg.addColorStop(1,"rgba(160,205,235,0)");b.fillStyle=mg;b.fillRect(0,0,PW,PH);
+    b.fillStyle="#fff";b.beginPath();b.arc(mx,my,mr,0,6.283);b.fill();
+    let x=-12;
+    while(x<PW){const bw=14+rn()*38,bh=H*(.10+rn()*.27);
+      b.fillStyle="#0e2a38";b.fillRect(x,H*.78-bh,bw,bh+30);
+      b.fillStyle="rgba(255,206,138,.5)";
+      for(let k=0;k<3;k++) if(rn()>.58) b.fillRect(x+3+rn()*(bw-7),H*.78-bh+5+rn()*Math.max(1,bh-10),2.5,3);
+      x+=bw+2+rn()*8}
+
+    mid=mk(PW,PH); const m=mid.getContext("2d");
+    const wx=PW*.30,wy=H*.06,ww=PW*.46,wh=H*.70;
+    m.strokeStyle="#2b4a5c";m.lineWidth=Math.max(7,H*.035);m.strokeRect(wx,wy,ww,wh);
+    m.lineWidth=Math.max(4,H*.018);
+    m.beginPath();m.moveTo(wx+ww/2,wy);m.lineTo(wx+ww/2,wy+wh);
+    m.moveTo(wx,wy+wh*.46);m.lineTo(wx+ww,wy+wh*.46);m.stroke();
+    m.strokeStyle="rgba(196,232,252,.38)";m.lineWidth=2;
+    m.strokeRect(wx+7,wy+7,ww-14,wh-14);
+    m.fillStyle="#24414f";m.fillRect(wx-14,wy+wh,ww+28,Math.max(6,H*.028));
+    const cw=PW*.21;
+    const pans=[[0,1],[PW-cw,-1]];
+    for(let pi=0;pi<pans.length;pi++){
+      const px0=pans[pi][0], flip=pans[pi][1];
+      for(let i=0;i<14;i++){const t=i/13,sh=Math.sin(t*Math.PI*4.4+(flip<0?1.4:0));
+        m.fillStyle="rgba(22,50,66,"+Math.max(.12,.62+sh*.22)+")";
+        m.fillRect(px0+t*cw,0,cw/13+2,PH)}
+    }
+    m.fillStyle="rgba(14,34,46,.85)";m.fillRect(0,0,PW,Math.max(5,H*.03));
+
+    front=mk(PW,PH); const f=front.getContext("2d");
+    const bW=Math.min(PW*.70,H*2.1), bH=H*.46, bx=(PW-bW)/2, by=PH-bH;
+    const hbW=bW*.60,hbX=bx+(bW-hbW)/2,hbTop=by+bH*.04,hbBot=by+bH*.62;
+    f.fillStyle="#2d4859";
+    f.beginPath();f.moveTo(hbX,hbBot);f.lineTo(hbX,hbTop+bH*.16);
+    f.quadraticCurveTo(hbX+hbW/2,hbTop-bH*.10,hbX+hbW,hbTop+bH*.16);
+    f.lineTo(hbX+hbW,hbBot);f.closePath();f.fill();
+    f.strokeStyle="rgba(185,222,242,.5)";f.lineWidth=2.5;
+    f.beginPath();f.moveTo(hbX,hbTop+bH*.16);
+    f.quadraticCurveTo(hbX+hbW/2,hbTop-bH*.10,hbX+hbW,hbTop+bH*.16);f.stroke();
+    f.fillStyle="#82a2b5";
+    f.beginPath();f.moveTo(bx+bW*.07,by+bH*.58);f.lineTo(bx+bW*.93,by+bH*.58);
+    f.lineTo(bx+bW*1.06,PH);f.lineTo(bx-bW*.06,PH);f.closePath();f.fill();
+    const pw=hbW*.46,ph=bH*.26;
+    const pls=[[hbX+hbW*.27,-.05],[hbX+hbW*.73,.045]];
+    for(let qi=0;qi<pls.length;qi++){
+      const pcx=pls[qi][0], rot=pls[qi][1];
+      f.save();f.translate(pcx,by+bH*.50);f.rotate(rot);
+      f.fillStyle="rgba(8,20,28,.4)";rr(f,-pw/2+3,-ph/2+4,pw,ph,ph*.32);f.fill();
+      f.fillStyle="#a7c2d2";rr(f,-pw/2,-ph/2,pw,ph,ph*.34);f.fill();
+      f.strokeStyle="rgba(42,74,92,.5)";f.lineWidth=2;
+      rr(f,-pw/2+5,-ph/2+5,pw-10,ph-10,ph*.26);f.stroke();f.restore();
+    }
+    const dTop=by+bH*.74;
+    f.fillStyle="#688798";
+    f.beginPath();f.moveTo(bx-bW*.06,PH);f.lineTo(bx+bW*.03,dTop);
+    for(let dx=bx+bW*.03;dx<=bx+bW*.97;dx+=Math.max(8,bW/28))
+      f.lineTo(dx,dTop+Math.sin((dx-bx)/(bW*.11))*bH*.035);
+    f.lineTo(bx+bW*1.06,PH);f.closePath();f.fill();
+    f.strokeStyle="#55747f";f.lineWidth=2.5;
+    for(let k=0;k<6;k++){const fx=bx+bW*(.12+k*.155);
+      f.beginPath();f.moveTo(fx,dTop+bH*.07);f.quadraticCurveTo(fx-bW*.02,PH-bH*.08,fx-bW*.04,PH);f.stroke()}
+
+    lmap=mk(Math.max(40,W>>1),Math.max(28,H>>1)); lctx=lmap.getContext("2d");
+  }
+
+  const breath=t=>{const c=(t%10)/10;
+    if(c<.40) return .55+.45*Math.sin((c/.40)*Math.PI*.5);
+    if(c<.70) return 1-.45*Math.sin(((c-.40)/.30)*Math.PI*.5);
+    return .55-.25*Math.sin(((c-.70)/.30)*Math.PI)};
+
+  let mxp=.5,myp=.55,tx=.5,ty=.55,last=0;
+  if(window.__bfxMove) window.removeEventListener("pointermove",window.__bfxMove);
+  window.__bfxMove=function(e){const r=cv.getBoundingClientRect();
+    if(!r.width||!r.height)return;
+    tx=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));
+    ty=Math.min(1,Math.max(0,(e.clientY-r.top)/r.height));
+    last=performance.now()};
+  window.addEventListener("pointermove",window.__bfxMove,{passive:true});
+
+  try{paint()}catch(e){cv.style.display="none";return}
+  const t0=performance.now();
+
+  function frame(now){
+    bfxRaf=requestAnimationFrame(frame);
+    if(document.hidden) return;
+    const r=cv.getBoundingClientRect();
+    if(!r.width) return;
+    if(Math.abs(r.width-W)>2||Math.abs(r.height-H)>2){ try{paint()}catch(e){return} }
+    const t=(now-t0)/1000;
+    if(now-last>3500){tx=.5+.26*Math.sin(t*.21);ty=.55+.13*Math.sin(t*.143+1.1)}
+    mxp+=(tx-mxp)*.055; myp+=(ty-myp)*.055;
+    const br=breath(t), px=(mxp-.5), py=(myp-.5);
+
+    ctx.clearRect(0,0,W,H);
+    ctx.drawImage(back ,-23-px*20, -13-py*10, W+46, H+26);
+    ctx.drawImage(mid  ,-23-px*34, -13-py*16, W+46, H+26);
+    ctx.drawImage(front,-23-px*52, -13-py*22, W+46, H+26);
+
+    const lw=lmap.width, lh=lmap.height;
+    lctx.globalCompositeOperation="source-over";
+    lctx.fillStyle="#4b606f"; lctx.fillRect(0,0,lw,lh);
+    lctx.globalCompositeOperation="lighter";
+    const gm=lctx.createRadialGradient(lw*.76,lh*.26,0,lw*.76,lh*.26,lh*1.25);
+    gm.addColorStop(0,"rgba(150,190,225,"+(.45+.4*br).toFixed(3)+")");
+    gm.addColorStop(1,"rgba(120,165,205,0)");
+    lctx.fillStyle=gm;lctx.fillRect(0,0,lw,lh);
+    const gl=lctx.createRadialGradient(mxp*lw,myp*lh,0,mxp*lw,myp*lh,lh*.95);
+    gl.addColorStop(0,"rgba(255,186,96,"+(.52+.4*br).toFixed(3)+")");
+    gl.addColorStop(1,"rgba(255,170,80,0)");
+    lctx.fillStyle=gl;lctx.fillRect(0,0,lw,lh);
+
+    ctx.globalCompositeOperation="multiply";
+    ctx.drawImage(lmap,0,0,W,H);
+    ctx.globalCompositeOperation="source-over";
+  }
+  bfxRaf=requestAnimationFrame(frame);
+}
+window.addEventListener("resize",()=>{clearTimeout(bfxT);bfxT=setTimeout(bedfx,150)});
+if(window.MutationObserver) new MutationObserver(()=>bedfx())
+  .observe(document.documentElement,{attributes:true,attributeFilter:["data-fs","data-contrast"]});
 render();init();
 </script>
 </body>
