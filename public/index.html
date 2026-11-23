@@ -55,6 +55,62 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertica
 .qc:hover .ic{transform:translateY(-2px) rotate(-3deg)}
 @media(max-width:480px){.ic{flex-basis:38px;width:38px;height:38px;border-radius:12px}.ic svg{width:22px;height:22px}}
 @media(prefers-reduced-motion:reduce){.ic{transition:none}.qc:hover .ic{transform:none}}
+/* ---- ไอคอนขยับตอนเอาเมาส์ชี้ (แบบ gif 10 เฟรม ใช้ steps(10)) ---- */
+.ic svg *{transform-box:fill-box;transform-origin:center}
+@keyframes i-zz{0%{transform:translate(0,0);opacity:.3}40%{opacity:1}100%{transform:translate(2px,-5px);opacity:0}}
+@keyframes i-steam{0%{transform:translateY(1px);opacity:.3}50%{opacity:1}100%{transform:translateY(-3px);opacity:0}}
+@keyframes i-look{0%,100%{transform:translateX(-1.6px)}50%{transform:translateX(1.6px)}}
+@keyframes i-blinkbar{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes i-beat{0%,100%{transform:scale(1)}30%{transform:scale(1.13)}55%{transform:scale(.96)}}
+@keyframes i-pulse{0%,100%{opacity:.5}40%{opacity:1}}
+@keyframes i-needle{0%,100%{transform:rotate(-30deg)}50%{transform:rotate(28deg)}}
+@keyframes i-flip{to{transform:rotate(180deg)}}
+@keyframes i-slide{0%{transform:translateX(-2px)}100%{transform:translateX(2px)}}
+@keyframes i-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+@keyframes i-bob2{0%,100%{transform:translateY(-2.5px)}50%{transform:translateY(0)}}
+@keyframes i-page{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.78)}}
+@keyframes i-page2{0%,100%{transform:scaleX(.82)}50%{transform:scaleX(1)}}
+@keyframes i-flick{0%,100%{opacity:1}30%{opacity:.4}60%{opacity:.85}}
+@keyframes i-wig{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+@keyframes i-spin{to{transform:rotate(360deg)}}
+@keyframes i-pop{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@keyframes i-pop2{0%,100%{transform:scale(1.12)}50%{transform:scale(1)}}
+@keyframes i-tilt{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+@keyframes i-tl1{0%,30%{opacity:1}31%,100%{opacity:.2}}
+@keyframes i-tl2{0%,29%{opacity:.2}30%,62%{opacity:1}63%,100%{opacity:.2}}
+@keyframes i-tl3{0%,61%{opacity:.2}62%,100%{opacity:1}}
+.qc:hover .ic .p1,.qc:focus-within .ic .p1,
+.qc:hover .ic .p2,.qc:focus-within .ic .p2,
+.qc:hover .ic .p3,.qc:focus-within .ic .p3{animation-duration:1.1s;animation-timing-function:steps(10);animation-iteration-count:infinite}
+.qc:hover .ic-S .p1,.qc:focus-within .ic-S .p1{animation-name:i-zz}
+.qc:hover .ic-S .p2,.qc:focus-within .ic-S .p2{animation-name:i-zz;animation-delay:.3s}
+.qc:hover .ic-T .p1,.qc:focus-within .ic-T .p1{animation-name:i-steam}
+.qc:hover .ic-T .p2,.qc:focus-within .ic-T .p2{animation-name:i-steam;animation-delay:.35s}
+.qc:hover .ic-O .p1,.qc:focus-within .ic-O .p1{animation-name:i-look}
+.qc:hover .ic-O .p2,.qc:focus-within .ic-O .p2{animation-name:i-blinkbar}
+.qc:hover .ic-P .p1,.qc:focus-within .ic-P .p1{animation-name:i-beat;animation-duration:.9s}
+.qc:hover .ic-P .p2,.qc:focus-within .ic-P .p2{animation-name:i-pulse;animation-duration:.9s}
+.qc:hover .ic-B .p1,.qc:focus-within .ic-B .p1{animation-name:i-needle;transform-origin:bottom}
+.qc:hover .ic-A .p1,.qc:focus-within .ic-A .p1{animation-name:i-flip;animation-duration:1.6s}
+.qc:hover .ic-N .p1,.qc:focus-within .ic-N .p1{animation-name:i-slide}
+.qc:hover .ic-G .p1,.qc:focus-within .ic-G .p1{animation-name:i-bob}
+.qc:hover .ic-G .p2,.qc:focus-within .ic-G .p2{animation-name:i-bob2}
+.qc:hover .ic-e0 .p1,.qc:focus-within .ic-e0 .p1{animation-name:i-page;transform-origin:right}
+.qc:hover .ic-e0 .p2,.qc:focus-within .ic-e0 .p2{animation-name:i-page2;transform-origin:left}
+.qc:hover .ic-e1 .p1,.qc:focus-within .ic-e1 .p1{animation-name:i-flick}
+.qc:hover .ic-e1 .p2,.qc:focus-within .ic-e1 .p2{animation-name:i-wig;transform-origin:bottom}
+.qc:hover .ic-e2 .p1,.qc:focus-within .ic-e2 .p1{animation-name:i-bob}
+.qc:hover .ic-e3 .p1,.qc:focus-within .ic-e3 .p1{animation-name:i-bob;animation-duration:.8s}
+.qc:hover .ic-e3 .p2,.qc:focus-within .ic-e3 .p2{animation-name:i-spin;animation-duration:1.4s}
+.qc:hover .ic-e4 .p1,.qc:focus-within .ic-e4 .p1{animation-name:i-bob}
+.qc:hover .ic-e5 .p1,.qc:focus-within .ic-e5 .p1{animation-name:i-pop}
+.qc:hover .ic-e5 .p2,.qc:focus-within .ic-e5 .p2{animation-name:i-pop2}
+.qc:hover .ic-e6 .p1,.qc:focus-within .ic-e6 .p1{animation-name:i-pop}
+.qc:hover .ic-e6 .p2,.qc:focus-within .ic-e6 .p2{animation-name:i-tilt;transform-origin:bottom}
+.qc:hover .ic-e7 .p1,.qc:focus-within .ic-e7 .p1{animation-name:i-tl1;animation-duration:1.8s}
+.qc:hover .ic-e7 .p2,.qc:focus-within .ic-e7 .p2{animation-name:i-tl2;animation-duration:1.8s}
+.qc:hover .ic-e7 .p3,.qc:focus-within .ic-e7 .p3{animation-name:i-tl3;animation-duration:1.8s}
+@media(prefers-reduced-motion:reduce){.qc:hover .ic *,.qc:focus-within .ic *{animation:none!important}}
 .qc h4{font-size:17px;margin:8px 0 4px}.qc p{font-size:13px;color:#5b6070;margin:0 0 12px}
 .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px}.opts.two{grid-template-columns:1fr 1fr}
 .opt{display:flex;justify-content:space-between;align-items:center;gap:6px;text-align:left;background:#f5eee1;border:1px solid #ddd2bd;border-radius:10px;padding:13px;font:15px 'Noto Sans Thai',sans-serif;color:#1c2a4d;cursor:pointer}
@@ -214,24 +270,24 @@ function render(){
 // ---------- ไอคอนประจำข้อคำถาม (SVG ฝังในไฟล์ ไม่โหลดจากข้างนอก ใช้ได้ตอนเน็ตหลุด) ----------
 const SVG=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICO={
- S:SVG('<circle cx="9" cy="13" r="6"/><path d="M6.4 12.3c.6.7 1.4.7 2 0M9.6 12.3c.6.7 1.4.7 2 0"/><path d="M7.6 16c1-.8 2.4-.8 3.4 0"/><path d="M15.5 4.5h3l-3 3h3"/><path d="M19 9.5h2.5L19 12h2.5"/>'),
- T:SVG('<path d="M4 9h11v5.5A4.5 4.5 0 0 1 10.5 19h-2A4.5 4.5 0 0 1 4 14.5z"/><path d="M15 10.5h2a2.5 2.5 0 0 1 0 5h-2"/><path d="M7 4.5c.6.9.6 1.4 0 2.3M11 4.5c.6.9.6 1.4 0 2.3"/>'),
- O:SVG('<path d="M1.5 12S4.8 6.8 9 6.8 16.5 12 16.5 12 13.2 17.2 9 17.2 1.5 12 1.5 12z"/><circle cx="9" cy="12" r="2.1"/><path d="M19.5 8.5v7M22.5 8.5v7"/>'),
- P:SVG('<path d="M12 20s-7.5-4.6-7.5-9.7A3.9 3.9 0 0 1 12 6.9a3.9 3.9 0 0 1 7.5 3.4C19.5 15.4 12 20 12 20z"/><path d="M6.5 12h2.2l1.3-2.2L12 14l1.4-2h3.1"/>'),
- B:SVG('<rect x="3" y="5" width="18" height="14" rx="3.5"/><path d="M12 15.2v-3.4"/><path d="M8.2 11.6a5 5 0 0 1 7.6 0"/><path d="M12 5v1.6"/>'),
- A:SVG('<path d="M7 3h10M7 21h10"/><path d="M7.5 3v2.6c0 2.4 3.2 3.5 3.2 6.4s-3.2 4-3.2 6.4V21"/><path d="M16.5 3v2.6c0 2.4-3.2 3.5-3.2 6.4s3.2 4 3.2 6.4V21"/>'),
- N:SVG('<rect x="2.5" y="8.5" width="19" height="7" rx="3.5"/><path d="M7 8.5v3M10 8.5v2M13 8.5v3M16 8.5v2"/>'),
- G:SVG('<circle cx="8.5" cy="14.5" r="4"/><path d="M8.5 18.5v3.2M6.9 20.1h3.2"/><circle cx="16.2" cy="8.2" r="3.6"/><path d="M18.8 5.6 22 2.4M19.2 2.4H22v2.8"/>')
+ S:SVG('<circle cx="9" cy="13" r="6"/><path d="M6.4 12.3c.6.7 1.4.7 2 0M9.6 12.3c.6.7 1.4.7 2 0"/><path d="M7.6 16c1-.8 2.4-.8 3.4 0"/><path class="p1" d="M15.5 4.5h3l-3 3h3"/><path class="p2" d="M19 9.5h2.5L19 12h2.5"/>'),
+ T:SVG('<path d="M4 9h11v5.5A4.5 4.5 0 0 1 10.5 19h-2A4.5 4.5 0 0 1 4 14.5z"/><path d="M15 10.5h2a2.5 2.5 0 0 1 0 5h-2"/><path class="p1" d="M7 4.5c.6.9.6 1.4 0 2.3"/><path class="p2" d="M11 4.5c.6.9.6 1.4 0 2.3"/>'),
+ O:SVG('<path d="M1.5 12S4.8 6.8 9 6.8 16.5 12 16.5 12 13.2 17.2 9 17.2 1.5 12 1.5 12z"/><circle class="p1" cx="9" cy="12" r="2.1"/><path class="p2" d="M19.5 8.5v7M22.5 8.5v7"/>'),
+ P:SVG('<path class="p1" d="M12 20s-7.5-4.6-7.5-9.7A3.9 3.9 0 0 1 12 6.9a3.9 3.9 0 0 1 7.5 3.4C19.5 15.4 12 20 12 20z"/><path class="p2" d="M6.5 12h2.2l1.3-2.2L12 14l1.4-2h3.1"/>'),
+ B:SVG('<rect x="3" y="5" width="18" height="14" rx="3.5"/><path class="p1" d="M12 15.2v-3.4"/><path d="M8.2 11.6a5 5 0 0 1 7.6 0"/><path d="M12 5v1.6"/>'),
+ A:SVG('<g class="p1"><path d="M7 3h10M7 21h10"/><path d="M7.5 3v2.6c0 2.4 3.2 3.5 3.2 6.4s-3.2 4-3.2 6.4V21"/><path d="M16.5 3v2.6c0 2.4-3.2 3.5-3.2 6.4s3.2 4 3.2 6.4V21"/></g>'),
+ N:SVG('<rect x="2.5" y="8.5" width="19" height="7" rx="3.5"/><g class="p1"><path d="M7 8.5v3M10 8.5v2M13 8.5v3M16 8.5v2"/></g>'),
+ G:SVG('<g class="p1"><circle cx="8.5" cy="14.5" r="4"/><path d="M8.5 18.5v3.2M6.9 20.1h3.2"/></g><g class="p2"><circle cx="16.2" cy="8.2" r="3.6"/><path d="M18.8 5.6 22 2.4M19.2 2.4H22v2.8"/></g>')
 };
 const ESSI=[
- SVG('<path d="M3 5.4c3-1.5 6-1.5 9 0v13.8c-3-1.5-6-1.5-9 0z"/><path d="M12 5.4c3-1.5 6-1.5 9 0v13.8c-3-1.5-6-1.5-9 0z"/>'),
- SVG('<rect x="3" y="7.5" width="18" height="11.5" rx="3"/><path d="M8.5 3 12 6.6 15.5 3"/><path d="M9 22h6"/>'),
- SVG('<path d="M5.5 11.5V7.8a2 2 0 0 1 4 0v3.7M14.5 11.5V7.8a2 2 0 0 1 4 0v3.7"/><rect x="3" y="11.5" width="18" height="6.5" rx="2"/><path d="M7 18v2.5M17 18v2.5"/>'),
- SVG('<path d="M4.5 13.5 6.3 8.4A2 2 0 0 1 8.2 7h7.6a2 2 0 0 1 1.9 1.4l1.8 5.1"/><rect x="2.5" y="13.3" width="19" height="4.4" rx="1.8"/><circle cx="7" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>'),
- SVG('<path d="M3 18.5V9.5"/><path d="M3 13.5h18v5"/><path d="M21 18.5v-5a3 3 0 0 0-3-3h-6.5v3"/><circle cx="7" cy="10.8" r="2.2"/>'),
- SVG('<path d="M2.5 7.2a3 3 0 0 1 3-3h7.2a3 3 0 0 1 3 3v2.9a3 3 0 0 1-3 3H7.6l-3.9 2.8a.4.4 0 0 1-.6-.3z"/><path d="M17.2 9.4h.9a3 3 0 0 1 3 3v2.7a3 3 0 0 1-3 3h-.7l-3.3 2.3v-2.3"/>'),
- SVG('<circle cx="10.5" cy="12" r="6.2"/><circle cx="10.5" cy="12" r="2.4"/><path d="M20 4.5v15M18.5 4.5v4.2M21.5 4.5v4.2"/>'),
- SVG('<rect x="7" y="2.2" width="10" height="16.6" rx="4.2"/><circle cx="12" cy="6.6" r="1.5"/><circle cx="12" cy="10.5" r="1.5"/><circle cx="12" cy="14.4" r="1.5"/><path d="M12 18.8v2.6M9.5 21.4h5"/>')
+ SVG('<path class="p1" d="M3 5.4c3-1.5 6-1.5 9 0v13.8c-3-1.5-6-1.5-9 0z"/><path class="p2" d="M12 5.4c3-1.5 6-1.5 9 0v13.8c-3-1.5-6-1.5-9 0z"/>'),
+ SVG('<rect class="p1" x="3" y="7.5" width="18" height="11.5" rx="3"/><path class="p2" d="M8.5 3 12 6.6 15.5 3"/><path d="M9 22h6"/>'),
+ SVG('<g class="p1"><path d="M5.5 11.5V7.8a2 2 0 0 1 4 0v3.7M14.5 11.5V7.8a2 2 0 0 1 4 0v3.7"/></g><rect x="3" y="11.5" width="18" height="6.5" rx="2"/><path d="M7 18v2.5M17 18v2.5"/>'),
+ SVG('<g class="p1"><path d="M4.5 13.5 6.3 8.4A2 2 0 0 1 8.2 7h7.6a2 2 0 0 1 1.9 1.4l1.8 5.1"/><rect x="2.5" y="13.3" width="19" height="4.4" rx="1.8"/></g><circle class="p2" cx="7" cy="19" r="1.5"/><circle class="p2" cx="17" cy="19" r="1.5"/>'),
+ SVG('<path d="M3 18.5V9.5"/><path d="M3 13.5h18v5"/><path d="M21 18.5v-5a3 3 0 0 0-3-3h-6.5v3"/><circle class="p1" cx="7" cy="10.8" r="2.2"/>'),
+ SVG('<path class="p1" d="M2.5 7.2a3 3 0 0 1 3-3h7.2a3 3 0 0 1 3 3v2.9a3 3 0 0 1-3 3H7.6l-3.9 2.8a.4.4 0 0 1-.6-.3z"/><path class="p2" d="M17.2 9.4h.9a3 3 0 0 1 3 3v2.7a3 3 0 0 1-3 3h-.7l-3.3 2.3v-2.3"/>'),
+ SVG('<circle cx="10.5" cy="12" r="6.2"/><circle class="p1" cx="10.5" cy="12" r="2.4"/><g class="p2"><path d="M20 4.5v15M18.5 4.5v4.2M21.5 4.5v4.2"/></g>'),
+ SVG('<rect x="7" y="2.2" width="10" height="16.6" rx="4.2"/><circle class="p1" cx="12" cy="6.6" r="1.5" fill="currentColor" stroke="none"/><circle class="p2" cx="12" cy="10.5" r="1.5" fill="currentColor" stroke="none"/><circle class="p3" cx="12" cy="14.4" r="1.5" fill="currentColor" stroke="none"/><path d="M12 18.8v2.6M9.5 21.4h5"/>')
 ];
 const SBQ=[
 ["S","Snoring","คุณนอนกรนเสียงดังหรือไม่","ดังกว่าการพูดคุยปกติ หรือดังพอที่จะได้ยินแม้ประตูปิดอยู่","ไม่ใช่","ใช่"],
@@ -267,8 +323,8 @@ ${isStaff?`<label>ช่องทางที่ผู้รับบริก�
 <div class="disc"><b>ข้อควรทราบ</b> — Smart Sleep Check เป็นเครื่องมือคัดกรองเบื้องต้นเพื่อประเมินความเสี่ยง ไม่ใช่การวินิจฉัยโรค ผลลัพธ์ไม่สามารถทดแทนการตรวจวินิจฉัยทางการแพทย์ เช่น การตรวจการนอนหลับ (Sleep Study / Polysomnography) หากคุณมีคะแนนความเสี่ยงปานกลางถึงสูง ควรปรึกษาแพทย์ผู้เชี่ยวชาญด้านการนอนหลับเพื่อประเมินเพิ่มเติม</div></div></div>`;
 }
 function qsHtml(){
-  if(tab==="sb")return SBQ.map((q,i)=>`<div class="qc" id="q${i}"><div class="qh"><span class="ic">${ICO[q[0]]}</span><div><span class="tg">${q[0]} · ${q[1]}</span><h4>${i+1}. ${q[2]}</h4>${q[3]?`<p>${q[3]}</p>`:""}</div></div><div class="opts two">${[4,5].map((k,v)=>`<button class="opt${SBA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${q[k]}<em>+${v}</em></button>`).join("")}</div></div>`).join("");
-  return ESSQ.map((t,i)=>`<div class="qc" id="q${i}"><div class="qh"><span class="ic">${ESSI[i]}</span><div><span class="tg">สถานการณ์ที่ ${i+1}</span><h4>${t}</h4><p>โอกาสที่คุณจะเผลองีบหลับ หรือรู้สึกง่วงมากในสถานการณ์นี้ (ไม่ใช่แค่เหนื่อย)</p></div></div><div class="opts">${ESSO.map((o,v)=>`<button class="opt${ESA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${o}<em>+${v} คะแนน</em></button>`).join("")}</div></div>`).join("");
+  if(tab==="sb")return SBQ.map((q,i)=>`<div class="qc" id="q${i}"><div class="qh"><span class="ic ic-${q[0]}">${ICO[q[0]]}</span><div><span class="tg">${q[0]} · ${q[1]}</span><h4>${i+1}. ${q[2]}</h4>${q[3]?`<p>${q[3]}</p>`:""}</div></div><div class="opts two">${[4,5].map((k,v)=>`<button class="opt${SBA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${q[k]}<em>+${v}</em></button>`).join("")}</div></div>`).join("");
+  return ESSQ.map((t,i)=>`<div class="qc" id="q${i}"><div class="qh"><span class="ic ic-e${i}">${ESSI[i]}</span><div><span class="tg">สถานการณ์ที่ ${i+1}</span><h4>${t}</h4><p>โอกาสที่คุณจะเผลองีบหลับ หรือรู้สึกง่วงมากในสถานการณ์นี้ (ไม่ใช่แค่เหนื่อย)</p></div></div><div class="opts">${ESSO.map((o,v)=>`<button class="opt${ESA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${o}<em>+${v} คะแนน</em></button>`).join("")}</div></div>`).join("");
 }
 const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 (function(){const f=LS.get("fs"),c=LS.get("ct");if(f&&f!=="n")document.documentElement.setAttribute("data-fs",f);if(c==="1")document.documentElement.setAttribute("data-contrast","hi")})();
