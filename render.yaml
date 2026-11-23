@@ -1,0 +1,38 @@
+# Render Blueprint — ใช้สำหรับ "เซิร์ฟเวอร์ทดสอบ" เท่านั้น ไม่ใช่ของจริงของโรงพยาบาล
+# ของจริงให้ฝ่าย IT ติดตั้งตาม README.md (Node + systemd + nginx + backup)
+#
+# ข้อจำกัดของ Render free:
+#   - ดิสก์ไม่ถาวร → ไฟล์ฐานข้อมูล sleepclinic.db หายทุกครั้งที่ deploy ใหม่หรือเครื่องรีสตาร์ท
+#   - ไม่มีคนใช้ 15 นาทีจะหลับ คลิกแรกรอประมาณ 30 วินาที
+#   - จึงห้ามกรอกชื่อ/เบอร์โทรของคนจริงบนเซิร์ฟเวอร์นี้ ใช้ข้อมูลสมมติเท่านั้น
+services:
+  - type: web
+    name: sleep-cpap-test
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: "echo ไม่มี dependency ภายนอก ไม่ต้อง build"
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "24.11.1"
+      - key: HOST
+        value: 0.0.0.0           # ต้องเป็น 0.0.0.0 ไม่งั้น Render มองไม่เห็นพอร์ต
+      - key: DATA_DIR
+        value: /tmp/sleep-cpap   # ไม่ถาวร — ดูหมายเหตุด้านบน
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: TZ_NAME
+        value: Asia/Bangkok
+      - key: SESSION_HOURS
+        value: "12"
+      - key: CLINIC_PHONE
+        sync: false              # ใส่เองในหน้า Render (อย่า commit ลง repo public)
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASS
+        sync: false              # ตั้งรหัสยาวๆ ในหน้า Render เท่านั้น
