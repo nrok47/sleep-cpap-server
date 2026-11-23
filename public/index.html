@@ -188,6 +188,30 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertica
  #printArea .sign{margin-top:26px;display:flex;justify-content:space-between;gap:30px;font-size:12px}
  @page{size:A4;margin:14mm}
 }
+/* ---- #5 ทะเบียนเคส: ชิปกรอง + ไฮไลต์เกินกำหนด ---- */
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.chips button{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--bd);background:var(--card);
+  color:var(--tx);border-radius:99px;padding:7px 13px;font:inherit;font-size:13.5px;cursor:pointer;min-height:38px}
+.chips button .n{font-variant-numeric:tabular-nums;background:var(--ac2);color:var(--ac);border-radius:99px;
+  padding:0 7px;font-size:12px;font-weight:700;min-width:21px;text-align:center}
+.chips button.on{background:var(--ac);border-color:var(--ac);color:var(--on-ac)}
+.chips button.on .n{background:rgba(0,0,0,.2);color:inherit}
+.chips button.w{border-color:var(--er);color:var(--er)}
+.chips button.w .n{background:rgba(185,28,28,.14);color:var(--er)}
+.chips button.w.on{background:var(--er);border-color:var(--er);color:#fff}
+.chips button.w.on .n{background:rgba(0,0,0,.22);color:#fff}
+.chips button:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+tr.lt{background:rgba(185,28,28,.06)}
+tr.lt td:first-child{box-shadow:inset 3px 0 0 var(--er)}
+tr.dtd td:first-child{box-shadow:inset 3px 0 0 var(--wa)}
+.dtag{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:1px 8px;margin-top:4px;white-space:nowrap}
+.dtag.l{background:rgba(185,28,28,.14);color:var(--er)}
+.dtag.t{background:rgba(180,83,9,.16);color:var(--wa)}
+.stat.clk{cursor:pointer;border:1px solid transparent;text-align:left;width:100%;font:inherit;color:inherit;display:block}
+.stat.clk:hover{border-color:var(--ac)}
+.stat.clk.on{border-color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac)}
+.stat.clk:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.fsum{font-size:13px;color:var(--mu);margin:0 0 10px}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;min-width:1000px}.cdy{border:1px solid var(--bd);border-radius:8px;min-height:96px;padding:4px;font-size:12px}.cdy.today{border:2px solid var(--ac)}.slot{margin-top:3px;padding:3px 6px;border-radius:5px;line-height:1.35;word-break:break-word}.slot.b{background:var(--ac2);cursor:pointer}.slot.f{color:var(--mu)}.slot.x{background:rgba(185,28,28,.15);color:var(--er);cursor:pointer}
 </style>
 </head>
@@ -432,29 +456,60 @@ function bindPatient(){
 let sv="list",cy0=new Date().getFullYear(),cm0=new Date().getMonth();
 let filt="open",q="";
 function staffHtml(){return `<div class="tabs"><button data-sv="list" class="${sv==="list"?"on":""}">ทะเบียนเคส</button><button data-sv="cal" class="${sv==="cal"?"on":""}">ปฏิทินนัดตรวจ Sleep test</button></div>`+(sv==="cal"?calHtml():staffList())}
+// จำนวนวันจากวันนี้ถึงวันครบกำหนด: ติดลบ = เลยมาแล้ว, 0 = ครบวันนี้
+const dleft=(due,t)=>!due?null:Math.round((Date.parse(due+"T00:00:00Z")-Date.parse(t+"T00:00:00Z"))/864e5);
+const isLate=(c,t)=>c.stage!=="closed"&&!!c.due&&c.due<t;
+const isDueToday=(c,t)=>c.stage!=="closed"&&c.due===t;
+
 function staffList(){
-  const open=cases.filter(c=>c.stage!=="closed"),t=today();
+  const t=today(), open=cases.filter(c=>c.stage!=="closed");
   const cnt=k=>cases.filter(c=>c.stage===k).length;
-  const late=open.filter(c=>c.due<t).length;
-  let list=cases.filter(c=>filt==="open"?c.stage!=="closed":filt==="all"?true:c.stage===filt);
+  const lateList=open.filter(c=>isLate(c,t)), late=lateList.length;
+  const dueT=open.filter(c=>isDueToday(c,t)).length;
+
+  const pick=c=>filt==="open"?c.stage!=="closed":filt==="all"?true:filt==="late"?isLate(c,t):filt==="today"?isDueToday(c,t):c.stage===filt;
+  let list=cases.filter(pick);
   if(q)list=list.filter(c=>(c.name+c.phone+(c.hn||"")).includes(q));
-  list.sort((a,b)=>(a.due||"").localeCompare(b.due||""));
+  // เกินกำหนดขึ้นก่อนเสมอ แล้วค่อยเรียงตามวันครบกำหนด
+  list.sort((a,b)=>(isLate(b,t)-isLate(a,t))||(a.due||"9999").localeCompare(b.due||"9999"));
+
+  const CH=[["open","เคสที่เปิดอยู่",open.length,""],["late","เกินกำหนด",late,"w"],["today","ครบกำหนดวันนี้",dueT,""]]
+    .concat(STAGES.slice(0,6).map(s=>[s.k,s.n,cnt(s.k),""]))
+    .concat([["all","ทั้งหมด",cases.length,""]]);
+  const chips=CH.map(([k,n,v,cls])=>`<button type="button" data-f="${k}" class="${cls}${filt===k?" on":""}" aria-pressed="${filt===k}">${esc(n)}<span class="n">${v}</span></button>`).join("");
+
+  const stat=(k,v,lab,warn)=>`<button type="button" class="stat clk${filt===k?" on":""}" data-f="${k}"><b class="${warn&&v?"over":""}">${v}</b><span>${esc(lab)}</span></button>`;
+
+  const dueCell=c=>{
+    const n=dleft(c.due,t);
+    if(c.stage==="closed"||n===null)return fd(c.due);
+    if(n<0)return `${fd(c.due)}<br><span class="dtag l">เกินกำหนด ${-n} วัน</span>`;
+    if(n===0)return `${fd(c.due)}<br><span class="dtag t">ครบกำหนดวันนี้</span>`;
+    return `${fd(c.due)}<br><span class="mu">อีก ${n} วัน</span>`;
+  };
+
+  const sumLine=filt==="late"&&!late?"ไม่มีเคสเกินกำหนด"
+    :`แสดง ${list.length} เคส${q?` จากคำค้น “${esc(q)}”`:""}${late&&filt!=="late"?` · มี ${late} เคสเกินกำหนด`:""}`;
+
   return `<div class="card"><h2>ภาพรวมงานวันนี้</h2><div class="grid">
-<div class="stat"><b>${open.length}</b><span>เคสที่เปิดอยู่</span></div>
-<div class="stat"><b class="${late?"over":""}">${late}</b><span>เกินกำหนด</span></div>
-${STAGES.slice(0,6).map(s=>`<div class="stat"><b>${cnt(s.k)}</b><span>${s.n}</span></div>`).join("")}</div></div>
-<div class="card"><h2>ทะเบียนเคส</h2><div class="row" style="margin-bottom:10px">
-<select id="ff" style="width:auto"><option value="open">เคสที่เปิดอยู่</option><option value="all">ทั้งหมด</option>${STAGES.map(s=>`<option value="${s.k}">${s.n}</option>`).join("")}</select>
-<input id="fq" placeholder="ค้นหาชื่อ / เบอร์ / HN" value="${esc(q)}" style="flex:1;min-width:160px"></div>
+${stat("open",open.length,"เคสที่เปิดอยู่")}
+${stat("late",late,"เกินกำหนด",1)}
+${stat("today",dueT,"ครบกำหนดวันนี้")}
+${STAGES.slice(0,6).map(s=>stat(s.k,cnt(s.k),s.n)).join("")}</div>
+<p class="fsum" style="margin:12px 0 0">กดการ์ดหรือชิปเพื่อกรองทะเบียนเคสด้านล่าง</p></div>
+<div class="card"><h2>ทะเบียนเคส</h2>
+<div class="chips" role="group" aria-label="กรองตามสถานะ">${chips}</div>
+<div class="row" style="margin-bottom:10px"><input id="fq" placeholder="ค้นหาชื่อ / เบอร์ / HN" value="${esc(q)}" style="flex:1;min-width:160px"></div>
+<p class="fsum">${sumLine}</p>
 <div class="scroll"><table><tr><th>ผู้รับบริการ</th><th>สถานะปัจจุบัน</th><th>งานถัดไป</th><th>ผู้รับผิดชอบ</th><th>ครบกำหนด</th><th></th></tr>
-${list.map(c=>`<tr><td><b>${esc(c.name)}</b><br><span class="mu">${esc(c.phone)} · HN ${esc(c.hn||"ยังไม่เชื่อม")}<br>ESS ${c.ess??"-"} · STOP-BANG ${c.sb??"-"} · สะดวก ${esc(c.time)}</span></td>
+${list.map(c=>`<tr class="${isLate(c,t)?"lt":isDueToday(c,t)?"dtd":""}"><td><b>${esc(c.name)}</b><br><span class="mu">${esc(c.phone)} · HN ${esc(c.hn||"ยังไม่เชื่อม")}<br>ESS ${c.ess??"-"} · STOP-BANG ${c.sb??"-"} · สะดวก ${esc(c.time)}</span></td>
 <td><span class="badge">${esc(sg(c.stage).n)}</span></td><td>${esc(c.nextTask)}${pend(c)}</td><td>${esc(c.owner)}</td>
-<td class="${c.stage!=="closed"&&c.due<t?"over":""}">${fd(c.due)}</td><td><button class="btn" data-id="${c.id}">จัดการ</button></td></tr>`).join("")||(ready?`<tr><td colspan="6"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg><div><b>ยังไม่มีเคสในกลุ่มนี้</b></div><div style="font-size:13px;margin-top:4px">เคสจะขึ้นที่นี่เมื่อผู้รับบริการส่งคำขอ หรือเจ้าหน้าที่กดบันทึกเคสใหม่</div></div></td></tr>`
+<td class="${isLate(c,t)?"over":""}">${dueCell(c)}</td><td><button class="btn" data-id="${c.id}">จัดการ</button></td></tr>`).join("")||(ready?`<tr><td colspan="6"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg><div><b>ยังไม่มีเคสในกลุ่มนี้</b></div><div style="font-size:13px;margin-top:4px">${filt==="open"?"เคสจะขึ้นที่นี่เมื่อผู้รับบริการส่งคำขอ หรือเจ้าหน้าที่กดบันทึกเคสใหม่":"ลองเลือกชิปอื่น หรือกด “ทั้งหมด”"}</div></div></td></tr>`
       :`<tr><td colspan="6"><div class="skel"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:85%"></div></td></tr>`)}
 </table></div></div>`;
 }
 function bindStaff(){document.querySelectorAll('[data-sv]').forEach(b=>b.onclick=()=>{sv=b.dataset.sv;render()});if(sv==='cal'){bindCal();return}
-  $("#ff").value=filt;$("#ff").onchange=e=>{filt=e.target.value;render()};
+  document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filt=b.dataset.f;render()});
   $("#fq").onchange=e=>{q=e.target.value.trim();render()};
   document.querySelectorAll("button[data-id]").forEach(b=>b.onclick=()=>openCase(b.dataset.id));
 }

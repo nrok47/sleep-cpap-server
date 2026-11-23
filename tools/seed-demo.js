@@ -67,10 +67,11 @@ const CASES = [
   },
   {
     id: 'cdemo06', name: 'ทดสอบ ฉ. รอแจ้งผล', phone: '000-000-0006', hn: 'TEST0006',
-    sex: 'ชาย', stage: 'result', due: d(2),
+    sex: 'ชาย', stage: 'result', due: d(0),
     sb: [1, 1, 1, 1, 1, 1, 1, 1], ess: [3, 3, 3, 2, 2, 3, 2, 3],
     testType: 'PSG', doctor: 'นพ.ทดสอบ ระบบ', sleepDate: d(-5), sleepRoom: '1',
-    plan: 'ผล AHI สูง พิจารณาเริ่ม CPAP', note: 'เคสตัวอย่าง: ตรวจแล้วรอรับรองผล'
+    plan: 'ผล AHI สูง พิจารณาเริ่ม CPAP',
+    note: 'เคสตัวอย่าง: ครบกำหนดวันนี้ ใช้ดูแถบสีเหลืองและชิป "ครบกำหนดวันนี้"'
   },
   {
     id: 'cdemo07', name: 'ทดสอบ ช. รอรับเครื่อง', phone: '000-000-0007', hn: 'TEST0007',
