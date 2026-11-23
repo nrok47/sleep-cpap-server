@@ -7,6 +7,12 @@
 ## สถานะ (23 พ.ย. 69)
 - ย้ายจาก `D:\Documents\sleep-cpap-server\` → `D:\ck_coding\htdocs\sleep-cpap-server`
 - ขึ้น GitHub **public**: https://github.com/nrok47/sleep-cpap-server (CK เลือกเอง 23 พ.ย. 69 ทั้งที่เสนอ private)
+- 🌐 **เว็บทดสอบ online: https://sleep-cpap-test.onrender.com** (Render free, blueprint `sleep-cpap-test`, region สิงคโปร์, deploy 23 พ.ย. 69)
+  - `autoDeploy: true` — push ขึ้น main เมื่อไหร่ เว็บอัปเองใน ~1 นาที
+  - admin user = `admin` · รหัส CK ตั้งเองในหน้า Render (Claude ไม่รู้) · CLINIC_PHONE ยังเป็น 045-000000 รอเบอร์จริง
+  - 🔴 **ดิสก์ไม่ถาวร (`/tmp`)** — เคสหายทุกครั้งที่ deploy/รีสตาร์ท · หลับหลังเงียบ 15 นาที (คลิกแรกรอ ~50 วิ)
+  - 🔴 **ห้ามกรอกชื่อ-เบอร์คนจริงบนเครื่องนี้** — ยังไม่มีประกาศ PDPA / backup / DPA
+- พี่ค้าง (github `pimmy4156`) ถูกเชิญเป็น collaborator สิทธิ์ write แล้ว 23 พ.ย. 69 (รอกดรับ)
 - รันจริงบน NB2 แล้ว (Node 24, port 3137) — หน้าสาธารณะ / หน้าเจ้าหน้าที่ / หน้าผู้ดูแล+audit log ใช้ได้ครบ
 
 ## เทคนิค
