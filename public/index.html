@@ -66,6 +66,64 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertica
 .sum hr{border:0;border-top:1px solid #3b4a78;margin:14px 0}#s3{font-size:14px}
 .disc{background:#efe4cb;border-radius:12px;padding:12px 14px;font-size:12px;color:#5b5648;margin-top:16px}
 @media(max-width:480px){.sum .two{grid-template-columns:1fr}}
+/* ---- #3 มือถือ: ปุ่มกดใหญ่ขึ้น อ่านง่ายขึ้น ---- */
+@media(max-width:600px){
+ .opt{min-height:56px;font-size:16px;padding:14px}
+ .sc .sb{padding:18px 13px}.qc{padding:14px}.sc h2{font-size:20px}.sc .hero{padding:18px 15px}.sc .hero h1{font-size:22px}
+ .opts{gap:8px}.sum{padding:16px}
+ main{padding:12px}
+}
+/* ---- #4 โหมดผู้สูงอายุ: ขนาดตัวอักษร + คอนทราสต์สูง ---- */
+:root[data-fs="l"] body{zoom:1.15}:root[data-fs="xl"] body{zoom:1.32}
+.a11y{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#ece3d0;border-radius:12px;padding:8px 10px;margin-bottom:14px;font-size:13px;color:#5b5648}
+.a11y button{border:1px solid #d8cfbd;background:#fffdf8;color:#1c2a4d;border-radius:9px;padding:7px 13px;font:inherit;cursor:pointer;min-height:40px}
+.a11y button.on{background:#1c2a4d;color:#fff;border-color:#1c2a4d}
+.a11y .f1{font-size:13px}.a11y .f2{font-size:16px}.a11y .f3{font-size:19px}
+:root[data-contrast="hi"] .sc{background:#fff}
+:root[data-contrast="hi"] .qc{background:#fff;border:2px solid #1c2a4d}
+:root[data-contrast="hi"] .opt{background:#fff;border:2px solid #1c2a4d;color:#000;font-weight:600}
+:root[data-contrast="hi"] .qc p,:root[data-contrast="hi"] .sc .sub,:root[data-contrast="hi"] .sc .eb{color:#303030}
+:root[data-contrast="hi"] .disc{background:#fff;border:2px solid #1c2a4d;color:#000}
+/* ---- #1 จุดบอกความคืบหน้า ---- */
+.dots{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 14px}
+.dots button{width:34px;height:34px;border-radius:50%;border:1.5px solid #d8cfbd;background:#fffdf8;color:#8a8273;font:600 13px 'Noto Sans Thai',sans-serif;cursor:pointer;padding:0;transition:transform .15s ease}
+.dots button.f{background:#5b4b9e;border-color:#5b4b9e;color:#fff}
+.dots button.cur{outline:3px solid #ffd77a;outline-offset:1px}
+.dots button:hover{transform:scale(1.08)}
+@media(prefers-reduced-motion:reduce){.dots button{transition:none}.dots button:hover{transform:none}}
+/* ---- #2 การ์ดสรุปผล ---- */
+.res{background:#2a3860;border-radius:14px;padding:14px 15px}
+.res .rt{font:11px monospace;color:#aab3d3;display:block;margin-bottom:6px}
+.res .rn{font-size:30px;font-weight:700;line-height:1.1;color:#fff}.res .rn small{font-size:14px;font-weight:400;color:#aab3d3}
+.meter{height:9px;border-radius:9px;background:#1b2447;overflow:hidden;margin:10px 0 8px}.meter i{display:block;height:100%;border-radius:9px;transition:width .35s ease}
+.chip{display:inline-block;border-radius:99px;padding:3px 11px;font-size:13px;font-weight:600;color:#10182e}
+.rmsg{font-size:13px;color:#cdd3ea;margin-top:8px;line-height:1.5}
+.cta{display:block;width:100%;margin-top:16px;background:#ffd77a;color:#1c2a4d;border:0;border-radius:13px;padding:15px;font:700 16px 'Noto Sans Thai',sans-serif;cursor:pointer;min-height:54px}
+.cta:hover{background:#ffcf5c}
+@media(prefers-reduced-motion:reduce){.meter i{transition:none}}
+/* ---- #7 สถานะกำลังโหลด / ว่าง ---- */
+.spin{display:inline-block;width:15px;height:15px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+.empty{text-align:center;color:var(--mu);padding:26px 14px}.empty svg{width:42px;height:42px;opacity:.5;margin-bottom:8px}
+.skel{background:linear-gradient(90deg,var(--ac2),var(--bd),var(--ac2));background-size:200% 100%;animation:sk 1.3s linear infinite;border-radius:9px;height:15px;margin:9px 0}
+@keyframes sk{to{background-position:-200% 0}}
+.okbox{background:#e7f5ec;border:1px solid #9fd3b4;color:#176a3b;border-radius:12px;padding:12px 14px;font-weight:600}
+/* ---- #8 พิมพ์ใบประเมิน ---- */
+#printArea{display:none}
+@media print{
+ body{background:#fff;color:#000;zoom:1}
+ body>*{display:none!important}
+ #printArea{display:block!important;font:13px/1.55 'Noto Sans Thai',sans-serif;color:#000;padding:0}
+ #printArea h1{font-size:17px;margin:0 0 2px;text-align:center}
+ #printArea .ph{text-align:center;font-size:12px;margin-bottom:12px}
+ #printArea table{width:100%;border-collapse:collapse;margin-bottom:10px;min-width:0}
+ #printArea th,#printArea td{border:1px solid #000;padding:5px 7px;font-size:12px;vertical-align:top;text-align:left}
+ #printArea th{background:#eee;width:30%;font-weight:600}
+ #printArea .sec{font-weight:700;margin:12px 0 5px;border-bottom:1.5px solid #000;padding-bottom:2px}
+ #printArea .sign{margin-top:26px;display:flex;justify-content:space-between;gap:30px;font-size:12px}
+ @page{size:A4;margin:14mm}
+}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;min-width:1000px}.cdy{border:1px solid var(--bd);border-radius:8px;min-height:96px;padding:4px;font-size:12px}.cdy.today{border:2px solid var(--ac)}.slot{margin-top:3px;padding:3px 6px;border-radius:5px;line-height:1.35;word-break:break-word}.slot.b{background:var(--ac2);cursor:pointer}.slot.f{color:var(--mu)}.slot.x{background:rgba(185,28,28,.15);color:var(--er);cursor:pointer}
 </style>
 </head>
@@ -77,6 +135,7 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);vertica
 <div id="app"></div>
 <p id="stafflink" style="text-align:center;margin:22px 0"><a href="#" id="lgn" class="mu">เจ้าหน้าที่เข้าสู่ระบบ</a></p>
 </main>
+<div id="printArea"></div>
 <dialog id="dlg"></dialog>
 <dialog id="lg" style="max-width:360px"><h2>เจ้าหน้าที่เข้าสู่ระบบ</h2><label>ชื่อผู้ใช้</label><input id="lu" autocomplete="username"><label>รหัสผ่าน</label><input id="lp" type="password" autocomplete="current-password"><div id="le" class="over" style="margin-top:6px"></div><div class="row" style="margin-top:12px"><button class="btn pri" id="lgo">เข้าสู่ระบบ</button><button class="btn" id="lcl">ยกเลิก</button></div></dialog>
 <script>
@@ -193,12 +252,12 @@ function patientHtml(){
   return `<div class="card mine"><h2>ติดตามคำขอของฉัน</h2>${mine.length?mine.map(c=>{const s=sg(c.stage);return `<div class="case"><div class="row"><span class="badge">${esc(s.n)}</span><span class="mu">ส่งคำขอ ${fd(c.createdAt)}</span></div>
 <p style="margin:8px 0 0">ขั้นตอนถัดไป: <b>${esc(c.nextTask)}</b><br><span class="mu">ผู้รับผิดชอบ: ${esc(c.owner)} · กำหนด ${fd(c.due)}</span></p></div>`}).join(""):`<p class="mu">ยังไม่มีคำขอ ทำแบบประเมินด้านล่างแล้วส่งคำขอให้โทรกลับได้</p>`}</div>
 <div class="sc"><div class="hero"><h1>Smart Sleep Check <span>เช็กการนอนหลับดี</span></h1><p>ประเมินความเสี่ยงภาวะหยุดหายใจขณะหลับและอาการง่วงผิดปกติในเวลากลางวัน ด้วยแบบสอบมาตรฐานสากลสองชุด ตอบครบ รู้ผลทันที พร้อมคำอธิบายที่เข้าใจง่าย</p></div>
-<div class="sb"><div class="eb">เลือกแบบประเมิน</div><h2>คุณอยากเริ่มเช็กเรื่องไหนก่อน</h2>
+<div class="sb"><div class="a11y"><span>การอ่าน</span><button class="f1" data-fs="n">ก ปกติ</button><button class="f2" data-fs="l">ก ใหญ่</button><button class="f3" data-fs="xl">ก ใหญ่มาก</button><button data-ct="1">สีเข้มชัด</button></div><div class="eb">เลือกแบบประเมิน</div><h2>คุณอยากเริ่มเช็กเรื่องไหนก่อน</h2>
 <p class="sub">ทั้งสองแบบใช้เวลาไม่ถึง 2 นาที เลือกทำอย่างใดอย่างหนึ่ง หรือทำทั้งคู่เพื่อภาพรวมที่ครบถ้วนของสุขภาพการนอน</p>
 <div class="seg"><button data-tab="sb">STOP-BANG · เสี่ยงหยุดหายใจ</button><button data-tab="ess">Epworth (ESS) · ความง่วงกลางวัน</button></div>
-<div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div><div id="qs"></div>
+<div class="bar"><i id="bar"></i></div><div class="cnt" id="cnt"></div><div class="dots" id="dots" role="group" aria-label="ข้อที่ตอบแล้ว"></div><div id="qs"></div>
 <div class="sum"><div class="eb" style="color:#e9b44c">Overall summary</div><h3>สรุปภาพรวมคะแนนทั้ง 2 แบบประเมิน</h3>
-<div class="two"><div><small>STOP-BANG</small><div id="s1"></div></div><div><small>EPWORTH (ESS)</small><div id="s2"></div></div></div><hr><div id="s3"></div></div>
+<div class="two"><div class="res" id="s1"></div><div class="res" id="s2"></div></div><hr><div id="s3"></div><div id="ctabox"></div></div>
 <div id="cbox"><h3 style="margin-top:22px">${isStaff?"ข้อมูลผู้รับบริการ (เจ้าหน้าที่กรอกแทน)":"ข้อมูลติดต่อเพื่อให้เจ้าหน้าที่โทรกลับ"}</h3>
 <label>ชื่อ–นามสกุล</label><input id="pn" autocomplete="name" value="${esc(P.n)}">
 <label>เบอร์โทรศัพท์</label><input id="pp" inputmode="tel" autocomplete="tel" value="${esc(P.p)}">
@@ -208,29 +267,63 @@ ${isStaff?`<label>ช่องทางที่ผู้รับบริก�
 <div class="disc"><b>ข้อควรทราบ</b> — Smart Sleep Check เป็นเครื่องมือคัดกรองเบื้องต้นเพื่อประเมินความเสี่ยง ไม่ใช่การวินิจฉัยโรค ผลลัพธ์ไม่สามารถทดแทนการตรวจวินิจฉัยทางการแพทย์ เช่น การตรวจการนอนหลับ (Sleep Study / Polysomnography) หากคุณมีคะแนนความเสี่ยงปานกลางถึงสูง ควรปรึกษาแพทย์ผู้เชี่ยวชาญด้านการนอนหลับเพื่อประเมินเพิ่มเติม</div></div></div>`;
 }
 function qsHtml(){
-  if(tab==="sb")return SBQ.map((q,i)=>`<div class="qc"><div class="qh"><span class="ic">${ICO[q[0]]}</span><div><span class="tg">${q[0]} · ${q[1]}</span><h4>${i+1}. ${q[2]}</h4>${q[3]?`<p>${q[3]}</p>`:""}</div></div><div class="opts two">${[4,5].map((k,v)=>`<button class="opt${SBA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${q[k]}<em>+${v}</em></button>`).join("")}</div></div>`).join("");
-  return ESSQ.map((t,i)=>`<div class="qc"><div class="qh"><span class="ic">${ESSI[i]}</span><div><span class="tg">สถานการณ์ที่ ${i+1}</span><h4>${t}</h4><p>โอกาสที่คุณจะเผลองีบหลับ หรือรู้สึกง่วงมากในสถานการณ์นี้ (ไม่ใช่แค่เหนื่อย)</p></div></div><div class="opts">${ESSO.map((o,v)=>`<button class="opt${ESA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${o}<em>+${v} คะแนน</em></button>`).join("")}</div></div>`).join("");
+  if(tab==="sb")return SBQ.map((q,i)=>`<div class="qc" id="q${i}"><div class="qh"><span class="ic">${ICO[q[0]]}</span><div><span class="tg">${q[0]} · ${q[1]}</span><h4>${i+1}. ${q[2]}</h4>${q[3]?`<p>${q[3]}</p>`:""}</div></div><div class="opts two">${[4,5].map((k,v)=>`<button class="opt${SBA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${q[k]}<em>+${v}</em></button>`).join("")}</div></div>`).join("");
+  return ESSQ.map((t,i)=>`<div class="qc" id="q${i}"><div class="qh"><span class="ic">${ESSI[i]}</span><div><span class="tg">สถานการณ์ที่ ${i+1}</span><h4>${t}</h4><p>โอกาสที่คุณจะเผลองีบหลับ หรือรู้สึกง่วงมากในสถานการณ์นี้ (ไม่ใช่แค่เหนื่อย)</p></div></div><div class="opts">${ESSO.map((o,v)=>`<button class="opt${ESA[i]===v?" sel":""}" data-i="${i}" data-v="${v}">${o}<em>+${v} คะแนน</em></button>`).join("")}</div></div>`).join("");
+}
+const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+(function(){const f=LS.get("fs"),c=LS.get("ct");if(f&&f!=="n")document.documentElement.setAttribute("data-fs",f);if(c==="1")document.documentElement.setAttribute("data-contrast","hi")})();
+function bindA11y(){
+  const R=document.documentElement,fs=R.getAttribute("data-fs")||"n",hi=R.getAttribute("data-contrast")==="hi";
+  document.querySelectorAll("[data-fs]").forEach(b=>{b.classList.toggle("on",b.dataset.fs===fs);
+    b.onclick=()=>{const v=b.dataset.fs;v==="n"?R.removeAttribute("data-fs"):R.setAttribute("data-fs",v);LS.set("fs",v);bindA11y()}});
+  const cb=document.querySelector("[data-ct]");if(cb){cb.classList.toggle("on",hi);
+    cb.onclick=()=>{const n=R.getAttribute("data-contrast")==="hi";n?R.removeAttribute("data-contrast"):R.setAttribute("data-contrast","hi");LS.set("ct",n?"0":"1");bindA11y()}}
+}
+const RM=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
+const goTo=el=>{if(el)el.scrollIntoView({behavior:RM()?"auto":"smooth",block:"center"})};
+const sbRisk=v=>v>=5?["ความเสี่ยงสูง","#f09a8c","เข้าข่ายเสี่ยงภาวะหยุดหายใจขณะหลับระดับสูง ควรให้เจ้าหน้าที่ประเมินต่อ"]
+  :v>=3?["ความเสี่ยงปานกลาง","#ffd77a","มีสัญญาณบางอย่าง ควรปรึกษาเจ้าหน้าที่เพื่อประเมินเพิ่มเติม"]
+  :["ความเสี่ยงต่ำ","#9ee6b8","ยังไม่พบสัญญาณเสี่ยงชัดเจนจากแบบคัดกรองนี้"];
+const essRisk=v=>v>=16?["ง่วงมากผิดปกติ (รุนแรง)","#f09a8c","ง่วงกลางวันมากผิดปกติ ควรปรึกษาแพทย์ โดยเฉพาะถ้าต้องขับรถหรือทำงานกับเครื่องจักร"]
+  :v>=11?["ง่วงมากผิดปกติ","#ffd77a","ง่วงกลางวันมากกว่าเกณฑ์ปกติ ควรให้เจ้าหน้าที่ประเมินต่อ"]
+  :["อยู่ในเกณฑ์ปกติ","#9ee6b8","ความง่วงกลางวันอยู่ในเกณฑ์ปกติ"];
+function resCard(label,dn,val,max,risk,doneN){
+  if(!dn)return `<span class="rt">${label}</span><div class="rn"><small>${doneN?`ตอบแล้ว ${doneN} จาก 8 ข้อ`:"ยังไม่ได้ทำแบบประเมินนี้"}</small></div>
+  <div class="meter"><i style="width:${doneN/8*100}%;background:#6d79a8"></i></div><div class="rmsg">ตอบให้ครบเพื่อดูผล</div>`;
+  const [t,c,m]=risk(val);
+  return `<span class="rt">${label}</span><div class="rn">${val}<small> / ${max}</small></div>
+  <div class="meter"><i style="width:${val/max*100}%;background:${c}"></i></div>
+  <span class="chip" style="background:${c}">${t}</span><div class="rmsg">${m}</div>`;
 }
 function refresh(){
   const A=tab==="sb"?SBA:ESA,k=done(A);
   $("#bar").style.width=k/8*100+"%";
   $("#cnt").textContent=`ตอบแล้ว ${k} จาก 8 ${tab==="sb"?"ข้อ":"สถานการณ์"}`;
+  const nxt=A.findIndex(v=>v===null);
+  $("#dots").innerHTML=A.map((v,i)=>`<button class="${v!==null?"f":""}${i===nxt?" cur":""}" data-g="${i}" title="ไปข้อ ${i+1}" aria-label="ข้อ ${i+1}${v!==null?" ตอบแล้ว":" ยังไม่ตอบ"}">${i+1}</button>`).join("");
+  document.querySelectorAll("#dots button").forEach(b=>b.onclick=()=>goTo($("#q"+b.dataset.g)));
   document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
   const ds=done(SBA)===8,de=done(ESA)===8,sb=sum(SBA),es=sum(ESA);
-  $("#s1").innerHTML=ds?`<b>${sb}</b>/8 · ความเสี่ยง${sb>=5?"สูง":sb>=3?"ปานกลาง":"ต่ำ"}`:`<span>${done(SBA)?`ตอบแล้ว ${done(SBA)}/8 ข้อ`:"ยังไม่ได้ทำแบบประเมินนี้"}</span>`;
-  $("#s2").innerHTML=de?`<b>${es}</b>/24 · ${es>=11?"ง่วงมากผิดปกติ":"อยู่ในเกณฑ์ปกติ"}`:`<span>${done(ESA)?`ตอบแล้ว ${done(ESA)}/8 สถานการณ์`:"ยังไม่ได้ทำแบบประเมินนี้"}</span>`;
+  $("#s1").innerHTML=resCard("STOP-BANG · เสี่ยงหยุดหายใจ",ds,sb,8,sbRisk,done(SBA));
+  $("#s2").innerHTML=resCard("EPWORTH (ESS) · ความง่วงกลางวัน",de,es,24,essRisk,done(ESA));
   $("#s3").textContent=!ds&&!de?"ทำแบบประเมินอย่างน้อยหนึ่งชุดด้านบนเพื่อดูภาพรวมความเสี่ยงด้านการนอนหลับของคุณที่นี่":((ds&&sb>=3)||(de&&es>=11)?"มีสัญญาณที่ควรให้เจ้าหน้าที่ประเมินต่อ แนะนำให้ส่งคำขอโทรกลับด้านล่าง":"คะแนนยังไม่สูง แต่หากมีอาการต่อเนื่อง สามารถส่งคำขอปรึกษาได้ด้านล่าง");
+  const box=$("#ctabox");
+  if(box){box.innerHTML=(ds||de)?`<button class="cta" id="gocta">${isStaff?"ไปกรอกข้อมูลผู้รับบริการ":"ขอให้เจ้าหน้าที่โทรกลับ"} →</button>`:"";
+    if($("#gocta"))$("#gocta").onclick=()=>{goTo($("#cbox"));const f=$("#pn");if(f)setTimeout(()=>f.focus(),RM()?0:450)}}
 }
 function drawQs(){
   $("#qs").innerHTML=qsHtml();
   document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
     const A=tab==="sb"?SBA:ESA,i=+b.dataset.i;A[i]=+b.dataset.v;
-    b.parentNode.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b));refresh()});
+    b.parentNode.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b));refresh();
+    const nx=A.findIndex(v=>v===null);
+    setTimeout(()=>goTo(nx<0?$(".sum"):$("#q"+nx)),RM()?0:170)});
   refresh();
 }
 function bindPatient(){
   if(pub||isStaff){const m=document.querySelector(".mine");if(m)m.remove()}
-  if(flash){const n=document.createElement("div");n.className="note";n.style.cssText="margin-bottom:12px;font-weight:600";n.textContent=flash;$("#app").prepend(n)}
+  if(flash){const n=document.createElement("div");n.className="okbox";n.style.cssText="margin-bottom:12px";n.innerHTML='✔️ '+esc(flash);$("#app").prepend(n)}
+  bindA11y();
   document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;drawQs()});
   drawQs();
   if(pub){
@@ -248,11 +341,11 @@ function bindPatient(){
       if(done(SBA)!==8&&done(ESA)!==8){$("#pe").textContent="กรุณาทำแบบประเมินอย่างน้อยหนึ่งชุดให้ครบก่อนส่ง";return}
       if(!n||p.replace(/\D/g,"").length<9){$("#pe").textContent="กรุณากรอกชื่อและเบอร์โทรให้ถูกต้อง";return}
       if(!P.c){$("#pe").textContent="กรุณากดยินยอมการใช้ข้อมูลก่อนส่ง";return}
-      btn.disabled=true;$("#pe").textContent="";
+      btn.disabled=true;btn.innerHTML='<span class="spin"></span>กำลังส่ง…';$("#pe").textContent="";
       try{await API("POST","/api/public/submit",{name:n,phone:p,time:P.t,consent:true,website:$("#hp").value,sb:done(SBA)===8?SBA:null,ess:done(ESA)===8?ESA:null});
         SBA=Array(8).fill(null);ESA=Array(8).fill(null);P={n:"",p:"",t:"08:00–12:00",c:false,ch:"โทรศัพท์"};
         flash="ส่งคำขอเรียบร้อยแล้ว เจ้าหน้าที่จะโทรกลับตามช่วงเวลาที่แจ้งไว้";render();window.scrollTo(0,0)}
-      catch(e){btn.disabled=false;$("#pe").textContent=e.status===429?"ส่งบ่อยเกินไป กรุณาลองใหม่ภายหลัง":"ส่งไม่สำเร็จ กรุณาลองใหม่"+(CLINIC_PHONE?" หรือโทร "+CLINIC_PHONE:"")}
+      catch(e){btn.disabled=false;btn.textContent="ส่งคำขอให้เจ้าหน้าที่โทรกลับ";$("#pe").textContent=e.status===429?"ส่งบ่อยเกินไป กรุณาลองใหม่ภายหลัง":"ส่งไม่สำเร็จ กรุณาลองใหม่"+(CLINIC_PHONE?" หรือโทร "+CLINIC_PHONE:"")}
     };
     return}
   if($("#pch"))$("#pch").onchange=e=>P.ch=e.target.value;
@@ -291,7 +384,8 @@ ${STAGES.slice(0,6).map(s=>`<div class="stat"><b>${cnt(s.k)}</b><span>${s.n}</sp
 <div class="scroll"><table><tr><th>ผู้รับบริการ</th><th>สถานะปัจจุบัน</th><th>งานถัดไป</th><th>ผู้รับผิดชอบ</th><th>ครบกำหนด</th><th></th></tr>
 ${list.map(c=>`<tr><td><b>${esc(c.name)}</b><br><span class="mu">${esc(c.phone)} · HN ${esc(c.hn||"ยังไม่เชื่อม")}<br>ESS ${c.ess??"-"} · STOP-BANG ${c.sb??"-"} · สะดวก ${esc(c.time)}</span></td>
 <td><span class="badge">${esc(sg(c.stage).n)}</span></td><td>${esc(c.nextTask)}${pend(c)}</td><td>${esc(c.owner)}</td>
-<td class="${c.stage!=="closed"&&c.due<t?"over":""}">${fd(c.due)}</td><td><button class="btn" data-id="${c.id}">จัดการ</button></td></tr>`).join("")||`<tr><td colspan="6" class="mu">ไม่มีเคส</td></tr>`}
+<td class="${c.stage!=="closed"&&c.due<t?"over":""}">${fd(c.due)}</td><td><button class="btn" data-id="${c.id}">จัดการ</button></td></tr>`).join("")||(ready?`<tr><td colspan="6"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg><div><b>ยังไม่มีเคสในกลุ่มนี้</b></div><div style="font-size:13px;margin-top:4px">เคสจะขึ้นที่นี่เมื่อผู้รับบริการส่งคำขอ หรือเจ้าหน้าที่กดบันทึกเคสใหม่</div></div></td></tr>`
+      :`<tr><td colspan="6"><div class="skel"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:85%"></div></td></tr>`)}
 </table></div></div>`;
 }
 function bindStaff(){document.querySelectorAll('[data-sv]').forEach(b=>b.onclick=()=>{sv=b.dataset.sv;render()});if(sv==='cal'){bindCal();return}
@@ -337,6 +431,32 @@ function bindCal(){
   document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const n=+b.dataset.nav;if(!n){cy0=new Date().getFullYear();cm0=new Date().getMonth()}else{cm0+=n;if(cm0<0){cm0=11;cy0--}if(cm0>11){cm0=0;cy0++}}render()});
   document.querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>openCase(b.dataset.id));
 }
+// ---------- #8 พิมพ์ใบประเมิน / บันทึกเป็น PDF (ใช้ค่าที่เห็นบนหน้าจอตอนนั้น) ----------
+function printAssess(c){
+  const V=k=>{const e=$("#a_"+k);return e?(e.type==="checkbox"?(e.checked?"มี":"ไม่มี"):String(e.value||"").trim()):""};
+  const dash=v=>v||"–";
+  const R=(l,v)=>`<tr><th>${l}</th><td>${esc(dash(v))}</td></tr>`;
+  const name=[V("fnTh"),V("lnTh")].join(" ").trim()||c.name;
+  const dz=[V("hyp")==="มี"?"ความดันโลหิตสูง":"",V("dm")==="มี"?"เบาหวาน":"",V("dlp")==="มี"?"ไขมันในเลือดสูง":"",V("othOn")==="มี"?V("otherDz"):""].filter(Boolean).join(" · ");
+  const ts=[["blood","ตรวจเลือด"],["cxr","เอกซเรย์ทรวงอก"],["ecg","ECG/EKG"],["oth",V("t_name_oth")||"อื่น ๆ"]]
+    .filter(x=>{const e=$("#t_on_"+x[0]);return e&&e.checked}).map(x=>x[1]).join(" · ");
+  const vit=[V("wt")&&"น้ำหนัก "+V("wt")+" กก.",V("h")&&"ส่วนสูง "+V("h")+" ซม.",$("#a_bmi")&&$("#a_bmi").value&&"BMI "+$("#a_bmi").value,
+    V("bp")&&"BP "+V("bp"),V("pr")&&"PR "+V("pr"),V("rr")&&"RR "+V("rr"),V("temp")&&"T "+V("temp"),V("spo2")&&"SpO₂ "+V("spo2"),
+    V("neck")&&"รอบคอ "+V("neck")+" ซม.",V("waist")&&"รอบเอว "+V("waist")+" ซม."].filter(Boolean).join(" · ");
+  $("#printArea").innerHTML=`<h1>ใบประเมินก่อนตรวจการนอนหลับ (Pre-sleep study assessment)</h1>
+<div class="ph">${esc(document.querySelector("header p")?document.querySelector("header p").textContent:"")} · พิมพ์เมื่อ ${fd(today())}</div>
+<div class="sec">ข้อมูลผู้รับบริการ</div>
+<table>${R("ชื่อ–นามสกุล",name)}${R("ชื่อภาษาอังกฤษ",[V("fnEn"),V("lnEn")].join(" ").trim())}${R("HN",V("hn"))}${R("วันเกิด",$("#a_dob")?fd(getD("a_dob")):"")}${R("เบอร์โทรศัพท์",V("phone")||c.phone)}${R("ที่อยู่",V("addr"))}${R("สิทธิ์การรักษา",V("rights")==="other"?V("rightsOther"):V("rights"))}</table>
+<div class="sec">ประวัติและการตรวจร่างกาย</div>
+<table>${R("อาการสำคัญ",V("symptoms"))}${R("ประวัติการนอน",V("sleepHx"))}${R("ประวัติแพ้ยา",V("allergy")==="has"?V("allergyWhat")+" "+V("allergyRx"):"ปฏิเสธการแพ้ยา")}${R("โรคประจำตัว",dz)}${R("ยาที่ใช้ประจำ",V("meds"))}${R("สัญญาณชีพ / สัดส่วน",vit)}</table>
+<div class="sec">คะแนนคัดกรอง</div>
+<table>${R("STOP-BANG (0–8)",V("sb"))}${R("Epworth ESS (0–24)",V("ess"))}${R("วันที่ประเมิน",$("#a_sdate")?fd(getD("a_sdate")):"")}</table>
+<div class="sec">คำสั่งแพทย์และการนัดตรวจ</div>
+<table>${R("ประเภทการตรวจ",V("testType"))}${R("ข้อบ่งชี้",V("indication"))}${R("แผนการดูแล",V("plan"))}${R("การตรวจเพิ่มเติมที่สั่ง",ts)}${R("วันนัดตรวจ",$("#a_sleepDate")?fd(getD("a_sleepDate")):"")}${R("ห้องตรวจ",V("sleepRoom"))}${R("แพทย์ผู้สั่ง",V("doctor"))}</table>
+<div class="sign"><div>ลงชื่อ ................................................ ผู้ประเมิน<br>( ................................................ )<br>วันที่ ......... / ......... / .........</div>
+<div>ลงชื่อ ................................................ แพทย์<br>( ................................................ )<br>วันที่ ......... / ......... / .........</div></div>`;
+  window.print();
+}
 function openCase(id){
   const c=cases.find(x=>x.id===id);if(!c)return;
   const i=STAGES.findIndex(s=>s.k===c.stage),nx=STAGES[i+1],nm=(c.name||"").trim().split(/\s+/);
@@ -376,7 +496,8 @@ ${I("bp","ความดันโลหิต (mmHg)","text","120/80")}${I("pr"
 <label>ตรวจเพิ่มเติม (ติ๊กเมื่อสั่ง พร้อมวันติดตามผล — จะแสดง "รอผลตรวจเพิ่มเติม" ในทะเบียน)</label>
 ${TESTS.map(x=>{const v=t[x[0]]||{};return `<div class="row" style="margin-top:6px"><label style="display:inline-flex;gap:6px;align-items:center;margin:0;color:var(--tx);min-width:150px"><input type="checkbox" id="t_on_${x[0]}" style="width:auto"${v.on?" checked":""}>${x[1]}</label>${x[0]==="oth"?`<input id="t_name_oth" placeholder="ระบุรายการ" value="${esc(v.name)}" style="flex:1;min-width:120px">`:""}<div style="min-width:260px;flex:1">${DI("t_due_"+x[0],v.due,"fut")}</div></div>`}).join("")}
 <h3>บันทึกในวัน Sleep test (ทวนและวัดซ้ำ)</h3><div class="g2">${D("s_mdate","วัน เดือน ปี ที่วัด","fut")}${I("s_wt","น้ำหนัก (กก.)","number")}${I("s_h","ส่วนสูง (ซม.)","number")}<div><label>BMI (คำนวณอัตโนมัติ)</label><input id="a_s_bmi" readonly></div>${I("s_bp","ความดันโลหิต (mmHg)","text","120/80")}${I("s_pr","ชีพจร (ครั้ง/นาที)","number")}${I("s_rr","อัตราหายใจ (ครั้ง/นาที)","number")}${I("s_temp","อุณหภูมิ (°C)","number")}${I("s_spo2","SpO₂ ขณะตื่น (%)","number")}${I("s_neck","รอบคอ (ซม.)","number")}${I("s_waist","รอบเอว (ซม.)","number")}${T("s_note","ทวนข้อมูลสำคัญ / เหตุการณ์และหมายเหตุวันตรวจ",2)}</div>
-<p><button class="btn pri" id="as">บันทึกการประเมิน</button> <span id="am" class="mu"></span></p></div>`;
+<p><button class="btn pri" id="as">บันทึกการประเมิน</button> <button class="btn" id="apr">พิมพ์ / บันทึก PDF</button> <span id="am" class="mu"></span></p></div>`;
+  $("#apr").onclick=()=>printAssess(c);
   d.showModal();
   const bm=(x,y,o)=>{const w=+$("#a_"+x).value,h=+$("#a_"+y).value;$("#a_"+o).value=w>0&&h>0?(w/((h/100)**2)).toFixed(1):""};const calc=()=>{bm("wt","h","bmi");bm("s_wt","s_h","s_bmi");
     const b=getD("a_dob"),r=getD("a_mdate")||today();if(b){const x=new Date(b),y=new Date(r);let ag=y.getFullYear()-x.getFullYear();if(y<new Date(y.getFullYear(),x.getMonth(),x.getDate()))ag--;$("#a_age").value=ag>=0?ag+" ปี":""}else $("#a_age").value=""};
