@@ -38,6 +38,15 @@ PORT=3137 ADMIN_USER=admin ADMIN_PASS=demo1234 DATA_DIR=./data node server.js
 ไอคอน SVG 16 ตัวข้างคำถาม (**ขยับตอนเมาส์ชี้ CSS `steps(10)` = กระตุกแบบ gif 10 เฟรม ไม่ใช่ไฟล์ gif จริง ไม่มี JS · หยุดเมื่อเมาส์ออก · คีย์บอร์ด tab ก็ติดด้วย focus-within · prefers-reduced-motion ปิดหมด**) · จุดความคืบหน้า+เลื่อนข้อถัดไปเอง · การ์ดสรุปผล+CTA · ปุ่มมือถือ 56px · โหมดผู้สูงอายุ (zoom 3 ระดับ + สีเข้มชัด จำใน localStorage) · สถานะกำลังส่ง/ว่าง/skeleton · พิมพ์ใบประเมิน A4 (`printAssess`)
 **ยังไม่ได้ทำ: ข้อ 5 ทะเบียนเคสฝั่งเจ้าหน้าที่ (ชิปกรอง+ไฮไลต์เกินกำหนด) · ข้อ 6 จัดธีมหน้าคนไข้+เจ้าหน้าที่ให้เป็นระบบเดียว**
 
+## ทะเบียนเคสบน onrender ขึ้น 0 = ปกติ ไม่ใช่บั๊ก (CK ถาม 23 พ.ย. 69)
+`render.yaml` ตั้ง `DATA_DIR=/tmp/sleep-cpap` → Render free ล้าง `/tmp` ทุกครั้งที่ deploy/รีสตาร์ท/ตื่นจากหลับ ไฟล์ `sleepclinic.db` หายทั้งก้อน
+admin ยัง login ได้เพราะสร้างใหม่จาก env ตอนบูต แต่เคสไม่กลับมา · **เคสที่เทสไว้บน NB2 อยู่ใน `data-demo/sleepclinic.db`** (`DATA_DIR=./data-demo node server.js`)
+ทางแก้ถ้าจะให้ถาวร: Persistent Disk $0.25/GB/เดือน (ชนกฎห้ามค่ารายเดือน) · Postgres free ของ Render (หมดอายุ 30 วัน + ต้องรื้อจาก node:sqlite) → **เคาะ 23 พ.ย. 69: ปล่อยไว้** เครื่องนี้เป็นแค่ที่ให้พี่ค้างคลิกดูหน้าจอ
+
+## ทำไมเลือก Render ไม่ใช่ Vercel / Cloudflare
+โค้ดนี้เป็น Node long-running + เขียนไฟล์ `node:sqlite` → Vercel serverless ไม่มี process ค้าง ไฟล์ .db หายทุก request + session/rate-limit ใน memory พัง · Cloudflare Workers ไม่ใช่ Node จริง (workerd) ไม่มี `node:sqlite` ต้องเขียน DB ใหม่เป็น D1 ทั้งไฟล์
+Render รัน `node server.js` ตรงๆ = โค้ดเบสเดียวกับที่ IT รพ. จะลงด้วย systemd ไม่ต้องดูแล 2 เวอร์ชัน และเครื่องเทสสะท้อนของจริง
+
 ## บทเรียนตอนเทส
 อย่าเรียก `window.print()` ผ่าน browser automation — native dialog ทำให้ Chrome ค้างทั้งหน้าต่าง ต้องให้คนกด Esc เอง → เทสจาก `printArea.innerHTML` แทน
 
